@@ -26,7 +26,7 @@ public class IonObject {
     public void moveTo(int newX, int newY) {
         x = newX;
         y = newY;
-        repaint();
+        thisContainer.repaint();
     }
 
     public int getX() {return x;}

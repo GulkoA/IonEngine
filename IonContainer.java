@@ -16,7 +16,7 @@ public class IonContainer {
     //Border
     Color borderColor;
     Color backgroundColor;
-    double borderThickness;
+    private int borderThickness;
 
     //Stored objects
     private ArrayList<IonObject> objectList = new ArrayList<IonObject>();
@@ -27,7 +27,7 @@ public class IonContainer {
         width_auto = width <= 0;
         height_auto = height <= 0;
         borderColor = Color.black;
-        backgroundColor = Color.white;
+        backgroundColor = Color.black;
         borderThickness = 0;
     }
     public IonContainer() {
@@ -35,7 +35,8 @@ public class IonContainer {
         height_auto = true;
         this.width = 0;
         this.height = 0;
-
+        backgroundColor = Color.black;
+        borderThickness = 0;
     }
     public void draw(Graphics g) {
         if (width_auto)
@@ -43,6 +44,12 @@ public class IonContainer {
         if (height_auto)
             this.height = (int)thisPanel.getSize().getHeight();
         
+        Graphics2D g2D = (Graphics2D) g;
+        Stroke oldStroke = g2D.getStroke();
+        g2D.setStroke(new BasicStroke(borderThickness));
+        g2D.setColor(backgroundColor);
+        g2D.drawRect(0, 0, this.width, this.height); //!fix need to add private variables for xy position in panel for correct drawing
+        g2D.setStroke(oldStroke);
         for (IonObject object: objectList)
         {
             if (object != null)
@@ -51,14 +58,18 @@ public class IonContainer {
         //System.out.println(width + " " + height);
     }
 
+    public void repaint() {
+        thisPanel.repaint();
+    }
+
     public void setPanel(IonPanel panel, int ID) {
         this.thisPanel = panel;
         this.thisPanelID = ID;
     }
 
-    public IonContainer changeBorder(Color borderColor, double borderThickness) { this.borderColor = borderColor; this.borderThickness = borderThickness; return this; }
+    public IonContainer changeBorder(Color borderColor, int borderThickness) { this.borderColor = borderColor; this.borderThickness = borderThickness; return this; }
     public IonContainer changeBorder(Color borderColor) { this.borderColor = borderColor; return this; }
-    public IonContainer changeBorder(double borderThickness) { this.borderThickness = borderThickness; return this; }
+    public IonContainer changeBorder(int borderThickness) { this.borderThickness = borderThickness; return this; }
     
     public IonObject add(IonObject object) {
         objectList.add(object);
