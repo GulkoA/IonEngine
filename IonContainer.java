@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class IonContainer {
     //General parameters
     IonPanel thisPanel;
-    int thisPanelID;
+    String thisPanelKey;
     int width;
     int height;
     boolean width_auto;
@@ -62,9 +62,9 @@ public class IonContainer {
         thisPanel.repaint();
     }
 
-    public void setPanel(IonPanel panel, int ID) {
+    public void setPanel(IonPanel panel, String key) {
         this.thisPanel = panel;
-        this.thisPanelID = ID;
+        this.thisPanelKey = key;
     }
 
     public IonContainer changeBorder(Color borderColor, int borderThickness) { this.borderColor = borderColor; this.borderThickness = borderThickness; return this; }

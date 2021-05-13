@@ -39,4 +39,8 @@ class IonFrame extends JFrame {
         this.add(panel);
         return panel;
     }
+
+    public IonPanel getPanel() {
+        return panel;
+    }
 }

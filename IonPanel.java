@@ -2,10 +2,10 @@ package GameEngine;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 class IonPanel extends JPanel {
-    private ArrayList<IonContainer> containerList = new ArrayList<IonContainer>();
+    private HashMap<String, IonContainer> containerMap = new HashMap<String, IonContainer>();
 
     public IonPanel() {
         //set Background Color
@@ -29,22 +29,30 @@ class IonPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-        for (IonContainer container: containerList)
+        for (IonContainer container: containerMap.values())
         {
             if (container != null)
                 container.draw(g);
         }
     }
 
-    public IonContainer addContainer(IonContainer container) {
-        this.containerList.add(container);
-        container.setPanel(this, containerList.size() - 1);
+    public IonContainer addContainer(IonContainer container, String name) {
+        this.containerMap.put(name, container);
+        container.setPanel(this, name);
         return container;
     }
     public IonContainer addContainer() {
         IonContainer container = new IonContainer();
-        this.containerList.add(container);
-        container.setPanel(this, containerList.size() - 1);
+        this.containerMap.put("container", container);
+        container.setPanel(this, "container");
         return container;
+    }
+
+    public IonContainer getContainer(String name) {
+        return containerMap.get(name);
+    }
+
+    public HashMap<String, IonContainer> getContainerMap() {
+        return containerMap;
     }
 }

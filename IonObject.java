@@ -29,6 +29,12 @@ public class IonObject {
         thisContainer.repaint();
     }
 
+    public void moveBy(int newX, int newY) {
+        x += newX;
+        y += newY;
+        thisContainer.repaint();
+    }
+
     public int getX() {return x;}
     public int getY() {return y;}
 
