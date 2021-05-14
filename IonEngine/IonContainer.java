@@ -63,7 +63,7 @@ public class IonContainer {
         Stroke oldStroke = g2D.getStroke();
         g2D.setStroke(new BasicStroke(borderThickness));
         g2D.setColor(backgroundColor);
-        g2D.drawRect(0, 0, this.width, this.height); //!fix need to add private variables for xy position in panel for correct drawing
+        g2D.drawRect(x, y, this.width, this.height); //!fix need to add private variables for xy position in panel for correct drawing
         g2D.setStroke(oldStroke);
         for (IonObject object: objectsMap.values())
         {
@@ -110,13 +110,25 @@ public class IonContainer {
         this.height = height;
         repaint();
     }
+    public void resize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
 
+
+    public void setX(int x) {
+        this.x = x;
+        repaint();
+    }
+    public void setY(int y) {
+        this.y = y;
+        repaint();
+    }
     public void moveTo(int x, int y) {
         this.x = x;
         this.y = y;
         repaint();
     }
-
     public void moveBy(int x, int y) {
         this.x += x;
         this.y += y;
@@ -137,6 +149,10 @@ public class IonContainer {
         this.thisPanelKey = key;
     }
 
+    public String getName() {
+        return this.thisPanelKey;
+    }
+
     public IonContainer changeBorder(Color borderColor, int borderThickness) { this.borderColor = borderColor; this.borderThickness = borderThickness; repaint(); return this; }
     public IonContainer changeBorder(Color borderColor) { this.borderColor = borderColor; repaint(); return this; }
     public IonContainer changeBorder(int borderThickness) { this.borderThickness = borderThickness; repaint(); return this; }
@@ -146,7 +162,12 @@ public class IonContainer {
         object.setContainer(this, name);
         return object;
     }
-    public IonObject removeObject(String name) {
+
+    public IonObject get(String name) {
+        return objectsMap.get(name);
+    }
+
+    public IonObject remove(String name) {
         IonObject removed = objectsMap.get(name);
         objectsMap.remove(name);
         return removed;

@@ -43,8 +43,11 @@ public class IonPanel extends JPanel {
     }
     public IonContainer addContainer() {
         IonContainer container = new IonContainer();
-        this.containerMap.put("container", container);
-        container.setPanel(this, "container");
+        int i = 1;
+        String name = "container";
+        while (containerMap.get(name) != null) {i++; name = "container" + i;}
+        this.containerMap.put(name, container);
+        container.setPanel(this, name);
         return container;
     }
 

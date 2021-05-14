@@ -142,6 +142,18 @@ public class IonRunTimeConsole {
                     return;
             }
         }
+        if (objectName.equals("ion") || objectName.equals("ION"))
+        {
+            switch(command) {
+                case "version":
+                    System.out.println("Are you serious?! You are the developer and this thing is not even published yet. It is version -11 if you wish.");
+                    return;
+                default:
+                    System.out.println("IonRTC:  " + command + " not found!");
+                    return;
+                
+            }
+        }
         for (String frameName: framesMap.keySet())
         {
             if (objectName.equals(frameName))
@@ -154,7 +166,11 @@ public class IonRunTimeConsole {
                             framesMap.get(frameName).setVisible(false);
                         else
                             System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as boolean!");
-                        break;
+                        return;
+                    default:
+                        System.out.println("IonRTC:  " + command + " not found!");
+                        return;
+
                         
                 }
             }
@@ -164,7 +180,7 @@ public class IonRunTimeConsole {
             if (objectName.equals(panelName))
             {
                 switch(command) {
-                    //!add Add some rtc functions for Ion Panels
+                    //!add Add some useful rtc functions for Ion Panels
                 }
             }
         }
@@ -215,6 +231,27 @@ public class IonRunTimeConsole {
                             containersMap.get(containerName).setHeightAuto(false);
                         else
                             System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as boolean!");
+                        return;
+                    
+                    case "setX":
+                        try {
+                            containersMap.get(containerName).setX(Integer.parseInt(commandParams));
+                        }
+                        catch (Exception e) {
+                            System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as int");
+                        }
+                        return;
+
+                    case "setY":
+                        try {
+                            containersMap.get(containerName).setY(Integer.parseInt(commandParams));
+                        }
+                        catch (Exception e) {
+                            System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as int");
+                        }
+                        return;
+                    default:
+                        System.out.println("IonRTC:  " + command + " not found!");
                         return;
                     
                 }
