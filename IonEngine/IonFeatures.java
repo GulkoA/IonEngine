@@ -1,9 +1,7 @@
-package GameEngine;
+package IonEngine;
 
 
-interface IonCallback {
-    public void call();
-}
+
 
 public class IonFeatures {
     public void setTimeout(long time, IonCallback callback) {

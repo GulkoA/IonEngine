@@ -1,4 +1,4 @@
-package GameEngine;
+package IonEngine;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -28,6 +28,8 @@ public class IonRectangleObject extends IonObject{
 
     public void draw(Graphics g) {
         //System.out.println(super.getX() + " " + super.getY() + " " + width + " " + height);
-        g.fillRect(super.getX(), super.getY(), width, height);
+        int x = super.getContainer().getX() + super.getX();
+        int y = super.getContainer().getY() + super.getY();
+        g.fillRect(x, y, width, height);
     }
 }

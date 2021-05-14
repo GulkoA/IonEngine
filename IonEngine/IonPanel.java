@@ -1,10 +1,10 @@
-package GameEngine;
+package IonEngine;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.HashMap;
 
-class IonPanel extends JPanel {
+public class IonPanel extends JPanel {
     private HashMap<String, IonContainer> containerMap = new HashMap<String, IonContainer>();
 
     public IonPanel() {

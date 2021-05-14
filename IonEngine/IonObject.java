@@ -1,11 +1,11 @@
-package GameEngine;
+package IonEngine;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
 public class IonObject {
     private IonContainer thisContainer;
-    private int thisContainerID;
+    private String thisContainerKey;
     private int x = 0;
     private int y = 0;
     private int z_index = 0;
@@ -38,9 +38,13 @@ public class IonObject {
     public int getX() {return x;}
     public int getY() {return y;}
 
-    public void setContainer(IonContainer container, int containerID) {
+    public void setContainer(IonContainer container, String containerKey) {
         thisContainer = container;
-        thisContainerID = containerID;
+        thisContainerKey = containerKey;
+    }
+
+    public IonContainer getContainer() {
+        return thisContainer;
     }
 
     public void draw(Graphics g) {}

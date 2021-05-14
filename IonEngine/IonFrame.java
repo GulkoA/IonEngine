@@ -1,9 +1,9 @@
-package GameEngine;
+package IonEngine;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-class IonFrame extends JFrame {
+public class IonFrame extends JFrame {
     private MenuBar menuBar;
     private IonPanel panel;
 
