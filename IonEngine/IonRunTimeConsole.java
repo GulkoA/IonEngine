@@ -148,6 +148,10 @@ public class IonRunTimeConsole {
                 case "version":
                     System.out.println("Are you serious?! You are the developer and this thing is not even published yet. It is version -11 if you wish.");
                     return;
+                case "exit":
+                    System.out.println("Goodbye!");
+                    System.exit(0);
+                    return;
                 default:
                     System.out.println("IonRTC:  " + command + " not found!");
                     return;
@@ -181,6 +185,17 @@ public class IonRunTimeConsole {
             {
                 switch(command) {
                     //!add Add some useful rtc functions for Ion Panels
+                    case "importPanels":
+                        try {
+                            addPanelAppended(objectName);
+                        }
+                        catch (Exception e) {
+                            System.out.println("IonRTC: command error! Panel " + objectName + " not found!");
+                        }
+                        return;
+                    default:
+                        System.out.println("IonRTC:  " + command + " not found!");
+                        return;
                 }
             }
         }
@@ -250,6 +265,64 @@ public class IonRunTimeConsole {
                             System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as int");
                         }
                         return;
+
+                    case "importObjects":
+                        try {
+                            addContainerAppended(objectName);
+                        }
+                        catch (Exception e) {
+                            System.out.println("IonRTC: command error! Container " + objectName + " not found!");
+                        }
+                        return;
+                    
+                    default:
+                        System.out.println("IonRTC:  " + command + " not found!");
+                        return;
+                    
+                }
+            }
+        }
+        for (String objectNameMap: objectsMap.keySet())
+        {
+            if (objectName.equals(objectNameMap))
+            {
+                switch(command) {
+                    case "setWidth":
+                        try {
+                            objectsMap.get(objectNameMap).setWidth(Integer.parseInt(commandParams));
+                        }
+                        catch (Exception e) {
+                            System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as int");
+                        }
+                        return;
+
+                    case "setHeight":
+                        try {
+                            objectsMap.get(objectNameMap).setHeight(Integer.parseInt(commandParams));
+                        }
+                        catch (Exception e) {
+                            System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as int");
+                        }
+                        return;
+
+                    case "setX":
+                        try {
+                            objectsMap.get(objectNameMap).setX(Integer.parseInt(commandParams));
+                        }
+                        catch (Exception e) {
+                            System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as int");
+                        }
+                        return;
+
+                    case "setY":
+                        try {
+                            objectsMap.get(objectNameMap).setY(Integer.parseInt(commandParams));
+                        }
+                        catch (Exception e) {
+                            System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as int");
+                        }
+                        return;
+                    
                     default:
                         System.out.println("IonRTC:  " + command + " not found!");
                         return;

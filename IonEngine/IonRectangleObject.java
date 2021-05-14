@@ -4,32 +4,33 @@ import java.awt.event.*;
 import java.awt.*;
 
 public class IonRectangleObject extends IonObject{
-    private int width, height;
+    private Color backgroundColor = Color.black;
+
     public IonRectangleObject(int width, int height, int x, int y, int z_index) {
-        super(x, y, z_index);
-        this.width = width;
-        this.height = height;
+        super(width, height, x, y, z_index);
     }
     public IonRectangleObject(int width, int height, int x, int y) {
-        super(x, y);
-        this.width = width;
-        this.height = height;
+        super(width, height, x, y);
     }
     public IonRectangleObject(int x, int y) {
         super(x, y);
-        width = 100;
-        height = 100;
     }
     public IonRectangleObject() {
         super();
-        width = 100;
-        height = 100;
+    }
+    
+    public void setBackgroundColor(Color newColor) {
+        backgroundColor = newColor;
+        super.repaint();
     }
 
     public void draw(Graphics g) {
         //System.out.println(super.getX() + " " + super.getY() + " " + width + " " + height);
+        Color oldColor = g.getColor();
+        g.setColor(backgroundColor);
         int x = super.getContainer().getX() + super.getX();
         int y = super.getContainer().getY() + super.getY();
-        g.fillRect(x, y, width, height);
+        g.fillRect(x, y, super.getWidth(), super.getHeight());
+        g.setColor(oldColor);
     }
 }
