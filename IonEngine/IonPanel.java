@@ -18,13 +18,25 @@ public class IonPanel extends JPanel {
     }
 
     private class MouseList implements MouseMotionListener, MouseListener {
-        public void mouseDragged(MouseEvent e){}
-        public void mousePressed(MouseEvent e){}
-		public void mouseReleased(MouseEvent e){}
-        public void mouseMoved(MouseEvent e){}
-        public void mouseClicked(MouseEvent e){}
-		public void mouseEntered(MouseEvent e){}
-		public void mouseExited(MouseEvent e){}
+        public void mouseMoved(MouseEvent e){ forwardEvent(e, "moved"); }
+        public void mousePressed(MouseEvent e){ forwardEvent(e, "pressed"); }
+		public void mouseReleased(MouseEvent e){ forwardEvent(e, "released"); }
+        public void mouseClicked(MouseEvent e){ forwardEvent(e, "clicked"); }
+        public void mouseDragged(MouseEvent e){ forwardEvent(e, "dragged"); }
+		public void mouseEntered(MouseEvent e){ forwardEvent(e, "entered"); }
+		public void mouseExited(MouseEvent e){ forwardEvent(e, "exited"); }
+
+        private void forwardEvent(MouseEvent e, String type) {
+            int relMouseX;
+            int relMouseY;
+            for(IonContainer container: containerMap.values())
+            {
+                relMouseX = e.getX() - container.getX();
+                relMouseY = e.getY() - container.getY();
+                if (relMouseX > 0 && relMouseX < container.getWidth() && relMouseY > 0 && relMouseY < container.getHeight() );
+                    container.mouseEvent(e, type, relMouseX, relMouseY);
+            }
+        }
     }
 
     public void paintComponent(Graphics g) {

@@ -2,6 +2,7 @@ package IonEngine;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.util.HashMap;
 
 public class IonObject {
     private IonContainer thisContainer;
@@ -11,6 +12,7 @@ public class IonObject {
     private int width = 100;
     private int height = 100;
     private int z_index = 0;
+    private HashMap<String, Object> properties = new HashMap<String, Object>();
     
     public IonObject(int width, int height, int x, int y, int z_index) {
         this.width = width;
@@ -83,6 +85,11 @@ public class IonObject {
         repaint();
     }
 
+    public void setZIndex(int zIndex) {
+        this.z_index = zIndex;
+        thisContainer.resortObjectInSortedObjects(this);
+    }
+
     public void normalizeBorders() {
         if (width > thisContainer.getWidth()) {
             width = thisContainer.getWidth();
@@ -106,6 +113,7 @@ public class IonObject {
     public int getY() {return y;}
     public int getWidth() {return width;}
     public int getHeight() {return height;}
+    public int getZIndex() {return z_index;}
 
     public void setContainer(IonContainer container, String containerKey) {
         thisContainer = container;
@@ -120,5 +128,19 @@ public class IonObject {
 
     public void repaint() {
         thisContainer.repaint();
+    }
+
+    public Object addProperty(String propertyName, Object property) {
+        this.properties.put(propertyName, property);
+        return property;
+    }
+
+    public Object getProperty(String propertyName) {
+        return this.properties.get(propertyName);
+    }
+
+    public Object setProperty(String propertyName, Object property) {
+        this.properties.replace(propertyName, property);
+        return property;
     }
 }

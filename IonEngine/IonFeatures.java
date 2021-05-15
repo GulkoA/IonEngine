@@ -4,7 +4,7 @@ package IonEngine;
 
 
 public class IonFeatures {
-    public void setTimeout(long time, IonCallback callback) {
+    public static void setTimeout(long time, IonCallback callback) {
         try {
             Thread.sleep(time);
         }

@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class IonContainer {
     //General parameters
@@ -22,7 +23,15 @@ public class IonContainer {
 
     //Stored objects
     private HashMap<String, IonObject> objectsMap = new HashMap<String, IonObject>();
+
+    //Stores sorted objects by z_index
+    private ArrayList<IonObject> sortedObjects = new ArrayList<IonObject>();
     
+    //BehaviorPacks
+    private ArrayList<IonBehaviourPack> behaviorPacks = new ArrayList<IonBehaviourPack>();
+
+
+
     public IonContainer(int width, int height, int x, int y) {
         this.width = width;
         this.height = height;
@@ -65,10 +74,9 @@ public class IonContainer {
         g2D.setColor(backgroundColor);
         g2D.drawRect(x, y, this.width, this.height); //!fix need to add private variables for xy position in panel for correct drawing
         g2D.setStroke(oldStroke);
-        for (IonObject object: objectsMap.values())
+        for (int i = sortedObjects.size() - 1; i >= 0; i--)
         {
-            if (object != null)
-                object.draw(g);
+                sortedObjects.get(i).draw(g);
         }
         //System.out.println(width + " " + height);
     }
@@ -159,6 +167,7 @@ public class IonContainer {
     
     public IonObject add(IonObject object, String name) {
         objectsMap.put(name, object);
+        addToSortedObjects(object);
         object.setContainer(this, name);
         return object;
     }
@@ -170,10 +179,49 @@ public class IonContainer {
     public IonObject remove(String name) {
         IonObject removed = objectsMap.get(name);
         objectsMap.remove(name);
+        sortedObjects.remove(removed);
         return removed;
     }
+    
+    //Sorting objects by descending z_index (max z_index is at 0)
+    public void addToSortedObjects(IonObject objectToAdd) {
+        int i = 0;
+        while (i < sortedObjects.size() && objectToAdd.getZIndex() < sortedObjects.get(i).getZIndex())
+            i++;
+        sortedObjects.add(i, objectToAdd);
+    }
 
+    public void resortObjectInSortedObjects(IonObject objectToResort) {
+        sortedObjects.remove(objectToResort);
+        addToSortedObjects(objectToResort);
+    }
+    
     public HashMap<String, IonObject> getObjectMap() {
         return objectsMap;
     }
+
+    public IonBehaviourPack addBehaviour(IonBehaviourPack pack) {
+        this.behaviorPacks.add(pack);
+        pack.setContainer(this);
+        return pack;
+    }
+
+    public ArrayList<IonBehaviourPack> getBehaviors() {
+        return this.behaviorPacks;
+    }
+
+    public void mouseEvent(MouseEvent e, String type, int x, int y) {
+        for (IonBehaviourPack behaviourPack: behaviorPacks) {
+            behaviourPack.mouseEvent(e, type, x, y);
+        }
+    }
+
+    public IonObject getObjectByCoordinates(int x, int y) {
+        for (IonObject object: sortedObjects) {
+            if (object.getX() < x && object.getX() + object.getWidth() > x && object.getY() < y && object.getY() + object.getHeight() > y)
+                return object;
+        }
+        return null;
+    }
+
 }

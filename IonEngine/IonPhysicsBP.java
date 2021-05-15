@@ -1,24 +1,38 @@
 package IonEngine;
 
-public class IonPhysicsBP implements IonBehaviourPack {
-    private IonContainer container;
-    private boolean enabled;
+import java.awt.event.*;
 
-    public IonPhysicsBP( IonContainer container, boolean enabled) {
-        container = container;
+public class IonPhysicsBP implements IonBehaviourPack {
+    private boolean enabled;
+    private IonContainer container;
+
+    public IonPhysicsBP(boolean enabled) {
         this.enabled = enabled;
     }
-    public IonPhysicsBP(IonContainer newContainer) {
-        container = newContainer;
-        enabled = false;
+    public IonPhysicsBP() {
+        this.enabled = false;
     }
 
-    public void enable() {
+    public void setContainer(IonContainer container) {
+        this.container = container;
+    }
+
+    public IonContainer getContainer() {
+        return container;
+    }
+
+    public void on() {
         enabled = true;
         process();
     }
-    public void disable() {
+    public void off() {
         enabled = false;
+    }
+
+    public void setState(boolean state) {
+        enabled = state;
+        if (enabled)
+            process();
     }
 
     private void process() {
@@ -26,5 +40,11 @@ public class IonPhysicsBP implements IonBehaviourPack {
 
         }
     }
+
+    public void mouseEvent(MouseEvent e, String type, int x, int y) {
+
+    }
+
+    
 
 }
