@@ -322,6 +322,15 @@ public class IonRunTimeConsole {
                             System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as int");
                         }
                         return;
+
+                    case "setZIndex":
+                        try {
+                            objectsMap.get(objectNameMap).setZIndex(Integer.parseInt(commandParams));
+                        }
+                        catch (Exception e) {
+                            System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as int");
+                        }
+                        return;
                     
                     default:
                         System.out.println("IonRTC:  " + command + " not found!");

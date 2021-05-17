@@ -13,4 +13,8 @@ public class IonFeatures {
             callback.call();
         }
     }
+
+    public static int random(int min, int max) {
+        return (int)(Math.random() * (max + 1) + min);
+    }
 }

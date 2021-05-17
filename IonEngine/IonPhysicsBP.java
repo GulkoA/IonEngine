@@ -2,7 +2,7 @@ package IonEngine;
 
 import java.awt.event.*;
 
-public class IonPhysicsBP implements IonBehaviourPack {
+public class IonPhysicsBP extends IonBehaviourPack {
     private boolean enabled;
     private IonContainer container;
 

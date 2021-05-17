@@ -35,12 +35,14 @@ public class IonObject {
 
     public void setX(int x) {
         this.x = x;
+        objectEvent("changeX");
         normalizeBorders();
         repaint();
     }
 
     public void setY(int y) {
         this.y = y;
+        objectEvent("changeY");
         normalizeBorders();
         repaint();
     }
@@ -48,6 +50,7 @@ public class IonObject {
     public void moveTo(int newX, int newY) {
         x = newX;
         y = newY;
+        objectEvent("movedTo");
         normalizeBorders();
         repaint();
     }
@@ -55,6 +58,7 @@ public class IonObject {
     public void moveBy(int newX, int newY) {
         x += newX;
         y += newY;
+        objectEvent("movedBy");
         normalizeBorders();
         repaint();
     }
@@ -62,6 +66,7 @@ public class IonObject {
     public void resize(int width, int height) {
         this.width = width;
         this.height = height;
+        objectEvent("resized");
         normalizeBorders();
         repaint();
     }
@@ -75,12 +80,14 @@ public class IonObject {
 
     public void setWidth(int width) {
         this.width = width;
+        objectEvent("setWidth");
         normalizeBorders();
         repaint();
     }
 
     public void setHeight(int height) {
         this.height = height;
+        objectEvent("setHeight");
         normalizeBorders();
         repaint();
     }
@@ -88,6 +95,7 @@ public class IonObject {
     public void setZIndex(int zIndex) {
         this.z_index = zIndex;
         thisContainer.resortObjectInSortedObjects(this);
+        repaint();
     }
 
     public void normalizeBorders() {
@@ -140,7 +148,16 @@ public class IonObject {
     }
 
     public Object setProperty(String propertyName, Object property) {
-        this.properties.replace(propertyName, property);
+        if (properties.get(propertyName) == null)
+            return addProperty(propertyName, property);
+        else
+            properties.replace(propertyName, property);
         return property;
+    }
+
+    public void objectEvent(String type) {
+        for (IonBehaviourPack pack: thisContainer.getBehaviors()) {
+            pack.objectEvent(this, type);
+        }
     }
 }

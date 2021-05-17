@@ -21,6 +21,7 @@ public class IonRectangleObject extends IonObject{
     
     public void setBackgroundColor(Color newColor) {
         backgroundColor = newColor;
+        super.objectEvent("changedBackgroundColor");
         super.repaint();
     }
 
