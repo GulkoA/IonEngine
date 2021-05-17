@@ -62,10 +62,11 @@ public class IonDraggableBP extends IonBehaviourPack {
                 return;
             case "dragged":
                 if (dragging)
+                {
                     chosenObject.moveTo(x - pickX, y - pickY);
-
-                //if (moveToFront)
-                    //container.moveToTop(chosenObject);
+                    if (moveToFront)
+                        chosenObject.moveToTop();
+                }
                 return;
             case "entered":
                 return;

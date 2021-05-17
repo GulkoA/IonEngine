@@ -160,4 +160,51 @@ public class IonObject {
             pack.objectEvent(this, type);
         }
     }
+
+    public void moveUp() {
+        int i = thisContainer.getSortedObjects().indexOf(this);
+        if (i <= 0)
+            return;
+        int i2 = i - 1;
+        while (i2 > 0 && thisContainer.getSortedObjects().get(i2).getZIndex() <= getZIndex()) {i2--;}
+        // System.out.println("Before:\n" + i2 + " and " + i);
+        // System.out.println(thisContainer.getSortedObjects().get(i2).getZIndex() + " and " + thisContainer.getSortedObjects().get(i).getZIndex());
+        // System.out.println(thisContainer.getSortedObjects().get(i2).getProperty("name") + " and " + thisContainer.getSortedObjects().get(i).getProperty("name"));
+        
+        IonObject objectAbove = thisContainer.getSortedObjects().get(i2);
+        int zIndexBuffer = getZIndex();
+        int zIndexBuffer2 = thisContainer.getSortedObjects().get(i2).getZIndex();
+        setZIndex(zIndexBuffer2);
+        objectAbove.setZIndex(zIndexBuffer);
+        
+        // System.out.println("After:\n" + i2 + " and " + i);
+        // System.out.println(thisContainer.getSortedObjects().get(i2).getZIndex() + " and " + thisContainer.getSortedObjects().get(i).getZIndex());
+        // System.out.println(thisContainer.getSortedObjects().get(i2).getProperty("name") + " and " + thisContainer.getSortedObjects().get(i).getProperty("name"));
+    }
+
+    public void moveDown() {
+        int i = thisContainer.getSortedObjects().indexOf(this);
+        if (i <= 0)
+            return;
+        int i2 = i + 1;
+        while (i2 < thisContainer.getSortedObjects().size() && thisContainer.getSortedObjects().get(i2).getZIndex() >= getZIndex()) {i2++;}
+
+        IonObject objectAbove = thisContainer.getSortedObjects().get(i2);
+        int zIndexBuffer = getZIndex();
+        int zIndexBuffer2 = thisContainer.getSortedObjects().get(i2).getZIndex();
+        setZIndex(zIndexBuffer2);
+        objectAbove.setZIndex(zIndexBuffer);
+    }
+
+    public void moveToTop() {
+        if (thisContainer.getSortedObjects().indexOf(this) <= 0)
+            return;
+        while (thisContainer.getSortedObjects().indexOf(this) > 0 && getZIndex() != thisContainer.getSortedObjects().get(0).getZIndex()) {moveUp();}
+    }
+
+    public void moveToBottom() {
+        if (thisContainer.getSortedObjects().indexOf(this) < 0)
+            return;
+        while (thisContainer.getSortedObjects().indexOf(this) < thisContainer.getSortedObjects().size() && getZIndex() != thisContainer.getSortedObjects().get(thisContainer.getSortedObjects().size() - 1).getZIndex()) {moveDown();}
+    }
 }

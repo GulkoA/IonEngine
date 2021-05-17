@@ -19,6 +19,7 @@ public class Main {
     {
         IonFrame frame = new IonFrame();
         frame.setTitle("Ion");
+        frame.setAlwaysOnTop(true);
         IonPanel panel = frame.addPanel();
         
         //Testing the first container
@@ -28,12 +29,18 @@ public class Main {
         IonRectangleObject rectangle = (IonRectangleObject)container.add(new IonRectangleObject(), "rectangle");
         rectangle.setBackgroundColor(Color.blue);
         rectangle.setZIndex(2);
+        rectangle.setProperty("name", "Bob");
 
         container.add(new IonRectangleObject(), "rectangle2");
         ((IonRectangleObject)container.get("rectangle2")).setBackgroundColor(Color.green);
-
+        container.get("rectangle2").setProperty("name", "George");
+        
+        IonRectangleObject orangeSquare =  (IonRectangleObject)container.add(new IonRectangleObject(), "orangeSquare");
+        orangeSquare.setBackgroundColor(Color.orange);
+        
         container.addBehaviour(new IonDraggableBP());
         container.setPropertyToAllObjects("draggable", "true");
+        
 
         //Testing the second container
         IonContainer container2 = panel.addContainer();

@@ -201,6 +201,10 @@ public class IonContainer {
         return objectsMap;
     }
 
+    public ArrayList<IonObject> getSortedObjects() {
+        return sortedObjects;
+    }
+
     public IonBehaviourPack addBehaviour(IonBehaviourPack pack) {
         this.behaviorPacks.add(pack);
         pack.setContainer(this);
@@ -230,45 +234,6 @@ public class IonContainer {
             object.setProperty(propertyName, property);
         }
         return property;
-    }
-
-    public void moveUp(IonObject object) {
-        int i = sortedObjects.indexOf(object);
-        System.out.println("Moving up " + i);
-        if (i <= 0)
-            return;
-        int i2 = i - 1;
-        while (i2 > 0 && sortedObjects.get(i2).getZIndex() <= object.getZIndex()) {i2--;}
-        System.out.println("Before: " + i2 + " and " + i + " with z:" + sortedObjects.get(i2).getZIndex() + " and " + sortedObjects.get(i).getZIndex());
-        int zIndexBuffer = object.getZIndex();
-        int zIndexBuffer2 = sortedObjects.get(i2).getZIndex();
-        object.setZIndex(zIndexBuffer2);
-        sortedObjects.get(i2).setZIndex(zIndexBuffer);
-        System.out.println("After: " + i2 + " and " + i + " with z:" + sortedObjects.get(i2).getZIndex() + " and " + sortedObjects.get(i).getZIndex());
-    }
-
-    public void moveDown(IonObject object) {
-        int i = sortedObjects.indexOf(object);
-        if (i < 0 || i == sortedObjects.size() - 1)
-            return;
-        int i2 = i + 1;
-        while (i2 < sortedObjects.size() - 1 && sortedObjects.get(i2).getZIndex() >= object.getZIndex()) {i2++;}
-        sortedObjects.get(i).setZIndex(sortedObjects.get(i2).getZIndex());
-        sortedObjects.get(i2).setZIndex(object.getZIndex());
-        sortedObjects.set(i, sortedObjects.get(i2));
-        sortedObjects.set(i2, object);
-    }
-
-    public void moveToTop(IonObject object) {
-        if (sortedObjects.indexOf(object) <= 0)
-            return;
-        while (sortedObjects.indexOf(object) > 0 && object.getZIndex() != sortedObjects.get(0).getZIndex()) {moveUp(object); System.out.println(sortedObjects.indexOf(object));}
-    }
-
-    public void moveToBottom(IonObject object) {
-        if (sortedObjects.indexOf(object) < 0)
-            return;
-        while (sortedObjects.indexOf(object) < sortedObjects.size() && object.getZIndex() != sortedObjects.get(sortedObjects.size() - 1).getZIndex()) {moveDown(object);}
-    }
+    } 
 
 }

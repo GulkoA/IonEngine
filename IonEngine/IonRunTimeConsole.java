@@ -331,6 +331,10 @@ public class IonRunTimeConsole {
                             System.out.println("IonRTC: command error! " + commandParams + " cannot be correctly parsed as int");
                         }
                         return;
+
+                    case "moveUp":
+                            objectsMap.get(objectNameMap).moveUp();
+                        return;
                     
                     default:
                         System.out.println("IonRTC:  " + command + " not found!");
