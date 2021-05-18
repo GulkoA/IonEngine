@@ -12,12 +12,13 @@ public class IonPanel extends JPanel {
         setBackground(Color.white);
         
         //MouseMotionListener, MouseListener
-        MouseList mouseList = new MouseList();
-        addMouseMotionListener(mouseList);
-        addMouseListener(mouseList);
+        MouseRedirect mouseListener = new MouseRedirect();
+        addMouseMotionListener(mouseListener);
+        addMouseWheelListener(mouseListener);
+        addMouseListener(mouseListener);
     }
 
-    private class MouseList implements MouseMotionListener, MouseListener {
+    private class MouseRedirect implements MouseMotionListener, MouseListener, MouseWheelListener {
         public void mouseMoved(MouseEvent e){ forwardEvent(e, "moved"); }
         public void mousePressed(MouseEvent e){ forwardEvent(e, "pressed"); }
 		public void mouseReleased(MouseEvent e){ forwardEvent(e, "released"); }
@@ -25,6 +26,7 @@ public class IonPanel extends JPanel {
         public void mouseDragged(MouseEvent e){ forwardEvent(e, "dragged"); }
 		public void mouseEntered(MouseEvent e){ forwardEvent(e, "entered"); }
 		public void mouseExited(MouseEvent e){ forwardEvent(e, "exited"); }
+        public void mouseWheelMoved(MouseWheelEvent e) { forwardEvent(e, "wheelMoved"); }
 
         private void forwardEvent(MouseEvent e, String type) {
             int relMouseX;

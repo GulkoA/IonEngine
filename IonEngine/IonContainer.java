@@ -220,7 +220,17 @@ public class IonContainer {
             behaviourPack.mouseEvent(e, type, x, y);
         }
     }
-
+    
+    //if ignoreOrIncludeOnly is true, objects with property = true will be ignored
+    //if ignoreOrIncludeOnly is false, only objects with property = true will be included
+    public IonObject getObjectByCoordinates(int x, int y, String property, boolean ignoreOrIncludeOnly) {
+        for (IonObject object: sortedObjects) {
+            boolean included = !ignoreOrIncludeOnly == (object.getProperty(property) != null && (boolean)object.getProperty(property) == true);
+            if (included && object.getX() < x && object.getX() + object.getWidth() > x && object.getY() < y && object.getY() + object.getHeight() > y)
+                return object;
+        }
+        return null;
+    }
     public IonObject getObjectByCoordinates(int x, int y) {
         for (IonObject object: sortedObjects) {
             if (object.getX() < x && object.getX() + object.getWidth() > x && object.getY() < y && object.getY() + object.getHeight() > y)

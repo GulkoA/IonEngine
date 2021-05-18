@@ -70,10 +70,40 @@ public class IonObject {
         normalizeBorders();
         repaint();
     }
+    public void resize(int size) {
+        this.width = size;
+        this.height = size;
+        objectEvent("resized");
+        normalizeBorders();
+        repaint();
+    }
 
     public void resizeBy(int width, int height) {
         this.width += width;
         this.height += height;
+        objectEvent("resized");
+        normalizeBorders();
+        repaint();
+    }
+    public void resizeBy(int change) {
+        this.width += change;
+        this.height += change;
+        objectEvent("resized");
+        normalizeBorders();
+        repaint();
+    }
+
+    public void scale(int widthCoefficient, int heightCoefficient) {
+        this.width *= widthCoefficient;
+        this.height *= heightCoefficient;
+        objectEvent("scaled");
+        normalizeBorders();
+        repaint();
+    }
+    public void scale(int coefficient) {
+        this.width *= coefficient;
+        this.height *= coefficient;
+        objectEvent("scaled");
         normalizeBorders();
         repaint();
     }
@@ -126,6 +156,7 @@ public class IonObject {
     public void setContainer(IonContainer container, String containerKey) {
         thisContainer = container;
         thisContainerKey = containerKey;
+        normalizeBorders();
     }
 
     public IonContainer getContainer() {
@@ -206,5 +237,9 @@ public class IonObject {
         if (thisContainer.getSortedObjects().indexOf(this) < 0)
             return;
         while (thisContainer.getSortedObjects().indexOf(this) < thisContainer.getSortedObjects().size() && getZIndex() != thisContainer.getSortedObjects().get(thisContainer.getSortedObjects().size() - 1).getZIndex()) {moveDown();}
+    }
+
+    public void remove() {
+        thisContainer.remove(thisContainerKey);
     }
 }

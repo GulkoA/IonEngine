@@ -23,6 +23,8 @@ public class IonBehaviourPack {
                 return;
             case "exited":
                 return;
+            case "wheelMoved":
+                return;
         }
     }
     public void objectEvent(Object object, String type) {
@@ -36,6 +38,8 @@ public class IonBehaviourPack {
             case "changedY":
                 return;
             case "resized":
+                return;
+            case "scaled":
                 return;
             case "changedWidth":
                 return;
