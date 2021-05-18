@@ -29,6 +29,26 @@ public class IonFrame extends JFrame {
         return newMenuItem;
     }
 
+    public MenuItem[] addMenuItems(Menu menu, String[] itemNames, IonEventCaller eventCaller) {
+        MenuItem[] items = new MenuItem[itemNames.length];
+        for(int i = 0; i < items.length; i++) {
+            items[i] = new MenuItem(itemNames[i]);
+            items[i].addActionListener(new ActionRedirecter(eventCaller, itemNames[i]));
+            menu.add(items[i]);
+        }
+        return items;
+    }
+
+    private class ActionRedirecter implements ActionListener {
+        private String eventName;
+        private IonEventCaller eventCaller;
+        public ActionRedirecter(IonEventCaller eventCaller, String eventName) {this.eventName = eventName; this.eventCaller = eventCaller;}
+        public void actionPerformed(ActionEvent e)
+        {
+            eventCaller.actionPerformed(e, eventName);
+        } 
+    }
+
     public IonPanel addPanel(IonPanel newPanel) {
         panel = newPanel;
         this.add(panel);
