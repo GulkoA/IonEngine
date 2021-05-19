@@ -6,8 +6,12 @@ public class IonDraggableBP extends IonBehaviourPack {
     public boolean enabled;
     public IonContainer container;
 
-    public IonDraggableBP(boolean enabled) {
+    //settings
+    private boolean moveToFront = true;
+
+    public IonDraggableBP(boolean enabled, boolean moveToFront) {
         this.enabled = enabled;
+        this.moveToFront = moveToFront;
     }
     public IonDraggableBP() {
         this.enabled = true;
@@ -36,11 +40,9 @@ public class IonDraggableBP extends IonBehaviourPack {
     //some vars for dragging
     private IonObject chosenObject;
     private boolean dragging = false;
-    private int pickX = 0;
-    private int pickY = 0;
-
-    //settings
-    private boolean moveToFront = true;
+    private boolean wasFree = false;
+    private double pickX = 0;
+    private double pickY = 0;
 
     public void mouseEvent(MouseEvent e, String type, int x, int y) {
         if (enabled)
@@ -48,15 +50,24 @@ public class IonDraggableBP extends IonBehaviourPack {
             case "moved":
             return;
             case "pressed":
-                chosenObject = container.getObjectByCoordinates(x, y);
-                if (chosenObject != null && chosenObject.getProperty("draggable") != null && chosenObject.getProperty("draggable").equals("true")) {
+                chosenObject = container.getObjectByCoordinates(x, y, "draggable", false);
+                if (chosenObject != null) {
                     dragging = true;
                     pickX = x - chosenObject.getX();
                     pickY = y - chosenObject.getY();
+                    wasFree = (boolean)chosenObject.getProperty("free", false);
+                    chosenObject.setProperty("free", false);
+                    chosenObject.sendObjectEvent("grabbed");
                 }
                 return;
             case "released":
-                dragging = false;
+                if (dragging)
+                {
+                    dragging = false;
+                    if (wasFree)
+                        chosenObject.setProperty("free", true);
+                    chosenObject.sendObjectEvent("released");
+                }
                 return;
             case "clicked":
                 return;

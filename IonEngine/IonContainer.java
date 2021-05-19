@@ -57,8 +57,8 @@ public class IonContainer {
     public IonContainer() {
         widthAuto = true;
         heightAuto = true;
-        this.width = 0;
-        this.height = 0;
+        this.width = 500;
+        this.height = 500;
         backgroundColor = Color.black;
         borderThickness = 0;
     }
@@ -225,7 +225,7 @@ public class IonContainer {
     //if ignoreOrIncludeOnly is false, only objects with property = true will be included
     public IonObject getObjectByCoordinates(int x, int y, String property, boolean ignoreOrIncludeOnly) {
         for (IonObject object: sortedObjects) {
-            boolean included = !ignoreOrIncludeOnly == (object.getProperty(property) != null && (boolean)object.getProperty(property) == true);
+            boolean included = !ignoreOrIncludeOnly == (boolean)object.getProperty(property, false);
             if (included && object.getX() < x && object.getX() + object.getWidth() > x && object.getY() < y && object.getY() + object.getHeight() > y)
                 return object;
         }

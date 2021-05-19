@@ -3,10 +3,12 @@ package IonEngine;
 import java.awt.event.*;
 
 public class IonBehaviourPack {
+    private IonContainer container;
     public void on() {}
     public void off() {}
     public void setState(boolean state) {}
-    public void setContainer(IonContainer container) {}
+    public void setContainer(IonContainer container) {this.container = container;}
+    public IonContainer getContainer() {return container;}
     public void mouseEvent(MouseEvent e, String type, int x, int y) {
         switch(type) {
             case "moved":
@@ -27,7 +29,7 @@ public class IonBehaviourPack {
                 return;
         }
     }
-    public void objectEvent(Object object, String type) {
+    public void objectEvent(IonObject object, String type) {
         switch(type) {
             case "movedTo":
                 return;

@@ -21,7 +21,7 @@ public class IonRectangleObject extends IonObject{
     
     public void setBackgroundColor(Color newColor) {
         backgroundColor = newColor;
-        super.objectEvent("changedBackgroundColor");
+        super.sendObjectEvent("changedBackgroundColor");
         super.repaint();
     }
 
@@ -29,8 +29,8 @@ public class IonRectangleObject extends IonObject{
         //System.out.println(super.getX() + " " + super.getY() + " " + width + " " + height);
         Color oldColor = g.getColor();
         g.setColor(backgroundColor);
-        int x = super.getContainer().getX() + super.getX();
-        int y = super.getContainer().getY() + super.getY();
+        int x = (int)(super.getContainer().getX() + super.getX());
+        int y = (int)(super.getContainer().getY() + super.getY());
         g.fillRect(x, y, super.getWidth(), super.getHeight());
         g.setColor(oldColor);
     }

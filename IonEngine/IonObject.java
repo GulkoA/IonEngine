@@ -7,58 +7,58 @@ import java.util.HashMap;
 public class IonObject {
     private IonContainer thisContainer;
     private String thisContainerKey;
-    private int x = 0;
-    private int y = 0;
+    private double x = 0;
+    private double y = 0;
     private int width = 100;
     private int height = 100;
     private int z_index = 0;
     private HashMap<String, Object> properties = new HashMap<String, Object>();
     
-    public IonObject(int width, int height, int x, int y, int z_index) {
+    public IonObject(int width, int height, double x, double y, int z_index) {
         this.width = width;
         this.height = height;
         this.x = x;
         this.y = y;
         this.z_index = z_index;
     }
-    public IonObject(int width, int height, int x, int y) {
+    public IonObject(int width, int height, double x, double y) {
         this.width = width;
         this.height = height;
         this.x = x;
         this.y = y;
     }
-    public IonObject(int x, int y) {
+    public IonObject(double x, double y) {
         this.x = x;
         this.y = y;
     }
     public IonObject() {}
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
-        objectEvent("changeX");
+        sendObjectEvent("changeX");
         normalizeBorders();
         repaint();
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
-        objectEvent("changeY");
+        sendObjectEvent("changeY");
         normalizeBorders();
         repaint();
     }
 
-    public void moveTo(int newX, int newY) {
+    public void moveTo(double newX, double newY) {
         x = newX;
         y = newY;
-        objectEvent("movedTo");
+        sendObjectEvent("movedTo");
         normalizeBorders();
         repaint();
     }
 
-    public void moveBy(int newX, int newY) {
+    public void moveBy(double newX, double newY) {
         x += newX;
         y += newY;
-        objectEvent("movedBy");
+        sendObjectEvent("movedBy");
         normalizeBorders();
         repaint();
     }
@@ -66,14 +66,14 @@ public class IonObject {
     public void resize(int width, int height) {
         this.width = width;
         this.height = height;
-        objectEvent("resized");
+        sendObjectEvent("resized");
         normalizeBorders();
         repaint();
     }
     public void resize(int size) {
         this.width = size;
         this.height = size;
-        objectEvent("resized");
+        sendObjectEvent("resized");
         normalizeBorders();
         repaint();
     }
@@ -81,14 +81,14 @@ public class IonObject {
     public void resizeBy(int width, int height) {
         this.width += width;
         this.height += height;
-        objectEvent("resized");
+        sendObjectEvent("resized");
         normalizeBorders();
         repaint();
     }
     public void resizeBy(int change) {
         this.width += change;
         this.height += change;
-        objectEvent("resized");
+        sendObjectEvent("resized");
         normalizeBorders();
         repaint();
     }
@@ -96,28 +96,28 @@ public class IonObject {
     public void scale(int widthCoefficient, int heightCoefficient) {
         this.width *= widthCoefficient;
         this.height *= heightCoefficient;
-        objectEvent("scaled");
+        sendObjectEvent("scaled");
         normalizeBorders();
         repaint();
     }
     public void scale(int coefficient) {
         this.width *= coefficient;
         this.height *= coefficient;
-        objectEvent("scaled");
+        sendObjectEvent("scaled");
         normalizeBorders();
         repaint();
     }
 
     public void setWidth(int width) {
         this.width = width;
-        objectEvent("setWidth");
+        sendObjectEvent("setWidth");
         normalizeBorders();
         repaint();
     }
 
     public void setHeight(int height) {
         this.height = height;
-        objectEvent("setHeight");
+        sendObjectEvent("setHeight");
         normalizeBorders();
         repaint();
     }
@@ -133,7 +133,7 @@ public class IonObject {
             width = thisContainer.getWidth();
         }
         if (height > thisContainer.getHeight()) {
-            width = thisContainer.getWidth();
+            height = thisContainer.getHeight();
         }
 
         if (x < 0)
@@ -147,8 +147,21 @@ public class IonObject {
             y = thisContainer.getHeight() - height;
     }
 
-    public int getX() {return x;}
-    public int getY() {return y;}
+    public boolean touchesBottom() {
+        return y + height == thisContainer.getHeight();
+    }
+    public boolean touchesTop() {
+        return y == 0;
+    }
+    public boolean touchesLeft() {
+        return x == 0;
+    }
+    public boolean touchesRight() {
+        return x + width == thisContainer.getWidth();
+    }
+    
+    public double getX() {return x;}
+    public double getY() {return y;}
     public int getWidth() {return width;}
     public int getHeight() {return height;}
     public int getZIndex() {return z_index;}
@@ -174,8 +187,11 @@ public class IonObject {
         return property;
     }
 
-    public Object getProperty(String propertyName) {
-        return this.properties.get(propertyName);
+    public Object getProperty(String propertyName, Object defaultProperty) { //default is returned if property is null
+        Object toReturn = this.properties.get(propertyName);
+        if (toReturn == null)
+            return defaultProperty;
+        return toReturn;
     }
 
     public Object setProperty(String propertyName, Object property) {
@@ -186,7 +202,7 @@ public class IonObject {
         return property;
     }
 
-    public void objectEvent(String type) {
+    public void sendObjectEvent(String type) {
         for (IonBehaviourPack pack: thisContainer.getBehaviors()) {
             pack.objectEvent(this, type);
         }
