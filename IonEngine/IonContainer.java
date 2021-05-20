@@ -77,7 +77,8 @@ public class IonContainer {
         
         for (int i = sortedObjects.size() - 1; i >= 0; i--)
         {
-            sortedObjects.get(i).draw(g);
+            if (sortedObjects.get(i) != null)
+                sortedObjects.get(i).draw(g);
         }
         //System.out.println(width + " " + height);
     }
@@ -167,9 +168,9 @@ public class IonContainer {
     public IonContainer changeBorder(int borderThickness) { this.borderThickness = borderThickness; repaint(); return this; }
     
     public IonObject add(IonObject object, String name) {
+        object.setContainer(this, name);
         objectsMap.put(name, object);
         addToSortedObjects(object);
-        object.setContainer(this, name);
         return object;
     }
 
@@ -182,6 +183,11 @@ public class IonContainer {
         objectsMap.remove(name);
         sortedObjects.remove(removed);
         return removed;
+    }
+
+    public void removeAllObjects() {
+        objectsMap.clear();
+        sortedObjects.clear();
     }
     
     //Sorting objects by descending z_index (max z_index is at 0)
@@ -206,8 +212,8 @@ public class IonContainer {
     }
 
     public IonBehaviourPack addBehaviour(IonBehaviourPack pack) {
-        this.behaviorPacks.add(pack);
         pack.setContainer(this);
+        this.behaviorPacks.add(pack);
         return pack;
     }
 

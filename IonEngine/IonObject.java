@@ -147,14 +147,29 @@ public class IonObject {
             y = thisContainer.getHeight() - height;
     }
 
+    public boolean touchesBottom(double error) {
+        return y + height + error >= thisContainer.getHeight();
+    }
     public boolean touchesBottom() {
         return y + height == thisContainer.getHeight();
+    }
+
+    public boolean touchesTop(double error) {
+        return y - error <= 0;
     }
     public boolean touchesTop() {
         return y == 0;
     }
+
+    public boolean touchesLeft(double error) {
+        return x - error <= 0;
+    }
     public boolean touchesLeft() {
         return x == 0;
+    }
+
+    public boolean touchesRight(double error) {
+        return x + width + error >= thisContainer.getWidth();
     }
     public boolean touchesRight() {
         return x + width == thisContainer.getWidth();
@@ -162,6 +177,8 @@ public class IonObject {
     
     public double getX() {return x;}
     public double getY() {return y;}
+    public double getXMiddle() {return x + width / 2;}
+    public double getYMiddle() {return y + height / 2;}
     public int getWidth() {return width;}
     public int getHeight() {return height;}
     public int getZIndex() {return z_index;}

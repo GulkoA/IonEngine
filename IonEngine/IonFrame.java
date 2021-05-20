@@ -13,7 +13,7 @@ public class IonFrame extends JFrame {
     public IonFrame() {
         setSize(new Dimension(500, 500));
     }
-
+    
     public MenuBar addMenuBar() {
 		menuBar = new MenuBar();
         this.setMenuBar(menuBar);
@@ -63,4 +63,5 @@ public class IonFrame extends JFrame {
     public IonPanel getPanel() {
         return panel;
     }
+    
 }

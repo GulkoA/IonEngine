@@ -6,10 +6,10 @@ import java.awt.*;
 public class IonRectangleObject extends IonObject{
     private Color backgroundColor = Color.black;
 
-    public IonRectangleObject(int width, int height, int x, int y, int z_index) {
+    public IonRectangleObject(int width, int height, double x, double y, int z_index) {
         super(width, height, x, y, z_index);
     }
-    public IonRectangleObject(int width, int height, int x, int y) {
+    public IonRectangleObject(int width, int height, double x, double y) {
         super(width, height, x, y);
     }
     public IonRectangleObject(int x, int y) {
