@@ -63,24 +63,30 @@ public class IonContainer {
         borderThickness = 0;
     }
     public void draw(Graphics g) {
-        if (widthAuto)
-            this.width = (int)thisPanel.getSize().getWidth();
-        if (heightAuto)
-            this.height = (int)thisPanel.getSize().getHeight();
-        
-        Graphics2D g2D = (Graphics2D) g;
-        Stroke oldStroke = g2D.getStroke();
-        g2D.setStroke(new BasicStroke(borderThickness));
-        g2D.setColor(backgroundColor);
-        g2D.drawRect(x, y, this.width, this.height); //!fix need to add private variables for xy position in panel for correct drawing
-        g2D.setStroke(oldStroke);
-        
+        normalizeBorders();
+        drawFrame(g);
         for (int i = sortedObjects.size() - 1; i >= 0; i--)
         {
             if (sortedObjects.get(i) != null)
                 sortedObjects.get(i).draw(g);
         }
         //System.out.println(width + " " + height);
+    }
+
+    public void normalizeBorders() {
+        if (widthAuto)
+            this.width = (int)thisPanel.getSize().getWidth();
+        if (heightAuto)
+            this.height = (int)thisPanel.getSize().getHeight();
+    }
+
+    public void drawFrame(Graphics g) {
+        Graphics2D g2D = (Graphics2D) g;
+        Stroke oldStroke = g2D.getStroke();
+        g2D.setStroke(new BasicStroke(borderThickness));
+        g2D.setColor(backgroundColor);
+        g2D.drawRect(x, y, this.width, this.height); //!fix need to add private variables for xy position in panel for correct drawing
+        g2D.setStroke(oldStroke);
     }
 
     public void repaint() {

@@ -1,0 +1,17 @@
+import java.awt.Color;
+
+import IonEngine.*;
+import java.awt.*;
+
+class Main {
+    public static void main(String[] args) {
+        IonFrame frame = new IonFrame();
+        IonPanel panel = frame.addPanel();
+        IonPixelField pixelField = (IonPixelField)panel.addContainer(new IonPixelField(200, 200), "PixelField");
+        for (int w = 0; w < 100; w++)
+            for (int h = 0; h < 100; h++)
+                pixelField.setPixel(w, h, Color.green);
+        pixelField.changeBorder(10);
+        frame.setVisible(true);
+    }
+}

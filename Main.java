@@ -1,6 +1,9 @@
 import IonEngine.*;
 import java.awt.*;
 
+//IonEngine 0.5 beta
+//GravityBoxes demo
+
 public class Main {
     public static void main(String[] args) {
         IonFrame frame = new IonFrame();
@@ -48,14 +51,14 @@ class TracerBP extends IonBehaviourPack {
         if (type == "movedBy")
         {
             IonRectangleObject dot = (IonRectangleObject)canvas.add(new IonRectangleObject(5, 5, object.getXMiddle(), object.getYMiddle()), ("dot" + i));
-            int r = Math.abs((int)(double)object.getProperty("velocityY", 0.0));
-            if (r > 250) r = 250;
-            //else if (r < 0) r = 0;
-            int g = Math.abs((int)(double)object.getProperty("velocityX", 0.0));
-            if (g > 250) g = 250;
-            //else if (g < 0) g = 0;
+            int r = (int)(double)object.getProperty("velocityY", 0.0);
+            if (r < 0) r = -r;
+            if (r > 255) r = 255;
+            int g = (int)(double)object.getProperty("velocityX", 0.0);
+            if (g < 0) g = -g;
+            if (g > 255) g = 255;
             int b = 255 - Math.abs((r+g)/2);
-            //if (b > 255) b = 250;
+            if (b > 255) b = 255;
             try {
             dot.setBackgroundColor(new Color(r, g, b));
             } catch (Exception e) {
