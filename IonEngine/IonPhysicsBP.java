@@ -106,7 +106,7 @@ public class IonPhysicsBP extends IonBehaviourPack {
                         object.moveBy(velocityX * tStep, velocityY * tStep);
                     //save new velocities
                     object.setProperty("velocityY", velocityY);
-                    object.setProperty("velocityX", velocityX);  
+                    object.setProperty("velocityX", velocityX);
                 }
             }
         }

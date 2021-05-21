@@ -48,27 +48,29 @@ class TracerBP extends IonBehaviourPack {
     private IonContainer canvas;
     public TracerBP(IonContainer canvas) {this.canvas = canvas;}
     public void objectEvent(IonObject object, String type) {
-        if (type == "movedBy")
+        switch (type)
         {
-            IonRectangleObject dot = (IonRectangleObject)canvas.add(new IonRectangleObject(5, 5, object.getXMiddle(), object.getYMiddle()), ("dot" + i));
-            int r = (int)(double)object.getProperty("velocityY", 0.0);
-            if (r < 0) r = -r;
-            if (r > 255) r = 255;
-            int g = (int)(double)object.getProperty("velocityX", 0.0);
-            if (g < 0) g = -g;
-            if (g > 255) g = 255;
-            int b = 255 - Math.abs((r+g)/2);
-            if (b > 255) b = 255;
-            try {
-            dot.setBackgroundColor(new Color(r, g, b));
-            } catch (Exception e) {
-                System.out.println("Color error! r " + r + " g " + g + " b " + b);
-            }
-            i++;
-        }
-        else if (type == "released")
-        {
-            canvas.removeAllObjects();
+            case "movedBy":
+                IonRectangleObject dot = (IonRectangleObject)canvas.add(new IonRectangleObject(5, 5, object.getXMiddle(), object.getYMiddle()), ("dot" + i));
+                int r = (int)(double)object.getProperty("velocityY", 0.0);
+                if (r < 0) r = -r;
+                if (r > 255) r = 255;
+                int g = (int)(double)object.getProperty("velocityX", 0.0);
+                if (g < 0) g = -g;
+                if (g > 255) g = 255;
+                int b = 255 - (r+g)/2;
+                if (b > 255) b = 255;
+                try {
+                dot.setBackgroundColor(new Color(r, g, b));
+                } catch (Exception e) {
+                    System.out.println("Color error! r " + r + " g " + g + " b " + b);
+                }
+                i++;
+                return;
+
+            case "released":
+                canvas.removeAllObjects();
+                return;
         }
     }
 }
