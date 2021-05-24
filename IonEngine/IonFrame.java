@@ -9,9 +9,11 @@ public class IonFrame extends JFrame {
 
     public IonFrame(int width, int height) {
         setSize(new Dimension(width, height));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     public IonFrame() {
         setSize(new Dimension(500, 500));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
     public MenuBar addMenuBar() {

@@ -1,0 +1,22 @@
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+class Main {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.getContentPane().add(new Test());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+   }
+}
+
+class Test extends JPanel {
+   public void paint(Graphics g) {
+      BufferedImage bufferedImage = new BufferedImage(300,200,BufferedImage.TYPE_INT_RGB);
+      g.drawImage(bufferedImage, 0, 0,this);
+   }
+}
