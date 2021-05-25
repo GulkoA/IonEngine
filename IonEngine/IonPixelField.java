@@ -6,7 +6,6 @@ import java.awt.image.Raster;
 import java.awt.image.BufferedImage;
 
 public class IonPixelField extends IonContainer{
-    //private int pixelSize = 1;
     private BufferedImage bufferedImage;
 
     public IonPixelField(int width, int height, int x, int y) {

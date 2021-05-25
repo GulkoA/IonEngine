@@ -2,18 +2,28 @@ package IonEngine;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class IonFrame extends JFrame {
     private MenuBar menuBar;
-    private IonPanel panel;
+    private ArrayList<IonPanel> panelList = new ArrayList<IonPanel>();
 
     public IonFrame(int width, int height) {
         setSize(new Dimension(width, height));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super.getComponents();
     }
     public IonFrame() {
         setSize(new Dimension(500, 500));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void setFullScreen(boolean state) {
+        if (state)
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
+        else
+            setExtendedState(JFrame.NORMAL);
+        setUndecorated(state);
     }
     
     public MenuBar addMenuBar() {
@@ -52,18 +62,24 @@ public class IonFrame extends JFrame {
     }
 
     public IonPanel addPanel(IonPanel newPanel) {
-        panel = newPanel;
+        IonPanel panel = newPanel;
         this.add(panel);
+        panel.setFrame(this);
+        panelList.add(panel);
+        addKeyListener(panel.getListener());
         return newPanel;
     }
     public IonPanel addPanel() {
-        panel = new IonPanel();
+        IonPanel panel = new IonPanel();
         this.add(panel);
+        panel.setFrame(this);
+        panelList.add(panel);
+        addKeyListener(panel.getListener());
         return panel;
     }
 
-    public IonPanel getPanel() {
-        return panel;
+    public ArrayList<IonPanel> getPanelList() {
+        return panelList;
     }
     
 }

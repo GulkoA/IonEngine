@@ -232,6 +232,11 @@ public class IonContainer {
             behaviourPack.mouseEvent(e, type, x, y);
         }
     }
+    public void keyEvent(KeyEvent e, String type) {
+        for (IonBehaviourPack behaviourPack: behaviorPacks) {
+            behaviourPack.keyEvent(e, type);
+        }
+    }
     
     //if ignoreOrIncludeOnly is true, objects with property = true will be ignored
     //if ignoreOrIncludeOnly is false, only objects with property = true will be included

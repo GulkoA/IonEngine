@@ -21,7 +21,8 @@ public class IonRunTimeConsole {
     }
 
     public void addFrameAppended(String frameName) {
-        addPanel(framesMap.get(frameName).getPanel(), "panel");
+        for (IonPanel panel: framesMap.get(frameName).getPanelList())
+        addPanel(panel, "panel");
         addPanelAppended("panel");
     }
 

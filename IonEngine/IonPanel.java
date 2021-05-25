@@ -6,29 +6,36 @@ import java.util.HashMap;
 
 public class IonPanel extends JPanel {
     private HashMap<String, IonContainer> containerMap = new HashMap<String, IonContainer>();
+    private Redirect listener;
+    private IonFrame frame;
 
     public IonPanel() {
         //set Background Color
         setBackground(Color.white);
         
         //MouseMotionListener, MouseListener
-        MouseRedirect mouseListener = new MouseRedirect();
-        addMouseMotionListener(mouseListener);
-        addMouseWheelListener(mouseListener);
-        addMouseListener(mouseListener);
+        listener = new Redirect();
+
+        addMouseMotionListener(listener);
+        addMouseWheelListener(listener);
+        addMouseListener(listener);
     }
 
-    private class MouseRedirect implements MouseMotionListener, MouseListener, MouseWheelListener {
-        public void mouseMoved(MouseEvent e){ forwardEvent(e, "moved"); }
-        public void mousePressed(MouseEvent e){ forwardEvent(e, "pressed"); }
-		public void mouseReleased(MouseEvent e){ forwardEvent(e, "released"); }
-        public void mouseClicked(MouseEvent e){ forwardEvent(e, "clicked"); }
-        public void mouseDragged(MouseEvent e){ forwardEvent(e, "dragged"); }
-		public void mouseEntered(MouseEvent e){ forwardEvent(e, "entered"); }
-		public void mouseExited(MouseEvent e){ forwardEvent(e, "exited"); }
-        public void mouseWheelMoved(MouseWheelEvent e) { forwardEvent(e, "wheelMoved"); }
+    public void setFrame(IonFrame frame) { this.frame = frame; }
 
-        private void forwardEvent(MouseEvent e, String type) {
+    public Redirect getListener() { return listener; }
+
+    private class Redirect implements MouseMotionListener, MouseListener, MouseWheelListener, KeyListener {
+        public void mouseMoved(MouseEvent e){ forwardMouseEvent(e, "moved"); }
+        public void mousePressed(MouseEvent e){ forwardMouseEvent(e, "pressed"); }
+		public void mouseReleased(MouseEvent e){ forwardMouseEvent(e, "released"); }
+        public void mouseClicked(MouseEvent e){ forwardMouseEvent(e, "clicked"); }
+        public void mouseDragged(MouseEvent e){ forwardMouseEvent(e, "dragged"); }
+		public void mouseEntered(MouseEvent e){ forwardMouseEvent(e, "entered"); }
+		public void mouseExited(MouseEvent e){ forwardMouseEvent(e, "exited"); }
+        public void mouseWheelMoved(MouseWheelEvent e) { forwardMouseEvent(e, "wheelMoved"); }
+
+        private void forwardMouseEvent(MouseEvent e, String type) {
             int relMouseX;
             int relMouseY;
             for(IonContainer container: containerMap.values())
@@ -39,7 +46,20 @@ public class IonPanel extends JPanel {
                     container.mouseEvent(e, type, relMouseX, relMouseY);
             }
         }
+
+        public void keyTyped(KeyEvent e) { forwardKeyEvent(e, "typed"); }
+        public void keyPressed(KeyEvent e) { forwardKeyEvent(e, "pressed"); }
+        public void keyReleased(KeyEvent e) { forwardKeyEvent(e, "released"); }
+
+        private void forwardKeyEvent(KeyEvent e, String type) {
+            for(IonContainer container: containerMap.values())
+            {
+                container.keyEvent(e, type);
+            }
+        }
     }
+
+
 
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);

@@ -9,6 +9,7 @@ public class IonBehaviourPack {
     public void setState(boolean state) {}
     public void setContainer(IonContainer container) {this.container = container;}
     public IonContainer getContainer() {return container;}
+
     public void mouseEvent(MouseEvent e, String type, int x, int y) {
         switch(type) {
             case "moved":
@@ -26,6 +27,16 @@ public class IonBehaviourPack {
             case "exited":
                 return;
             case "wheelMoved":
+                return;
+        }
+    }
+    public void keyEvent(KeyEvent e, String type) {
+        switch(type) {
+            case "typed":
+                return;
+            case "pressed":
+                return;
+            case "released":
                 return;
         }
     }
