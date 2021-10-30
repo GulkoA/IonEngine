@@ -50,7 +50,7 @@ public class IonDraggableBP extends IonBehaviourPack {
             case "moved":
             return;
             case "pressed":
-                chosenObject = container.getObjectByCoordinates(x, y, "draggable", false);
+                chosenObject = container.getObjectByCoordinates(x, y, "draggable", true, false);
                 if (chosenObject != null) {
                     dragging = true;
                     pickX = x - chosenObject.getX();

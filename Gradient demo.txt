@@ -11,10 +11,11 @@ class Main {
         
         IonPixelField pixelField = (IonPixelField)panel.addContainer(new IonPixelField(255, 255), "PixelField");
         
-        for (int i = 0; i < 255; i++)
-            for (int i2 = 0; i2 < 255; i2++)
-                pixelField.setPixel(i, i2, new Color(i, i2, 255));
-        
         frame.setVisible(true);
+        for (int i = 0; i < 255; i++)
+            for (int i2 = 0; i2 < 255; i2++) {
+                pixelField.setPixel(i, i2, new Color(i, i2, 255));
+            }
+        
     }
 }

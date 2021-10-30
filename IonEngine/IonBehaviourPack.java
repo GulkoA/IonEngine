@@ -2,7 +2,7 @@ package IonEngine;
 
 import java.awt.event.*;
 
-public class IonBehaviourPack {
+public class IonBehaviourPack extends Thread{
     private IonContainer container;
     public void on() {}
     public void off() {}
@@ -59,6 +59,12 @@ public class IonBehaviourPack {
             case "changedHeight":
                 return;
             case "changedBackgroundColor":
+                return;
+
+            //for Draggable BP
+            case "grabbed":
+                return;
+            case "released":
                 return;
         }
     }

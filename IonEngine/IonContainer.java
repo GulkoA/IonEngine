@@ -7,18 +7,19 @@ import java.util.ArrayList;
 
 public class IonContainer {
     //General parameters
-    IonPanel thisPanel;
-    String thisPanelKey;
-    int width;
-    int height;
-    int x;
-    int y;
-    boolean widthAuto;
-    boolean heightAuto;
+    private IonPanel thisPanel;
+    private String thisPanelKey;
+    private int width;
+    private int height;
+    private int x;
+    private int y;
+    private boolean widthAuto;
+    private boolean heightAuto;
+    private boolean visible = true;
 
     //Border
-    Color borderColor;
-    Color backgroundColor;
+    private Color borderColor;
+    private Color backgroundColor;
     private int borderThickness;
 
     //Stored objects
@@ -43,7 +44,7 @@ public class IonContainer {
         backgroundColor = Color.black;
         borderThickness = 0;
     }
-    public IonContainer(int width, int height) {
+    public IonContainer(int width, int height) { //sets width/height to auto if 0, 0
         this.width = width;
         this.height = height;
         x = 0;
@@ -63,21 +64,32 @@ public class IonContainer {
         borderThickness = 0;
     }
     public void draw(Graphics g) {
-        normalizeBorders();
-        drawFrame(g);
-        for (int i = sortedObjects.size() - 1; i >= 0; i--)
+        if (visible)
         {
-            if (sortedObjects.get(i) != null)
-                sortedObjects.get(i).draw(g);
+            normalizeBorders();
+            if (borderThickness > 0)
+                drawFrame(g);
+            for (int i = sortedObjects.size() - 1; i >= 0; i--)
+            {
+                if (sortedObjects.get(i) != null)
+                    sortedObjects.get(i).draw(g);
+            }
         }
-        //System.out.println(width + " " + height);
     }
 
-    public void normalizeBorders() {
+    public IonContainer setVisible(boolean newState) {
+        visible = newState;
+        repaint();
+        return this;
+    }
+    public boolean isVisible() { return visible; }
+
+    public IonContainer normalizeBorders() {
         if (widthAuto)
             this.width = (int)thisPanel.getSize().getWidth();
         if (heightAuto)
             this.height = (int)thisPanel.getSize().getHeight();
+        return this;
     }
 
     public void drawFrame(Graphics g) {
@@ -118,46 +130,56 @@ public class IonContainer {
         return this.heightAuto;
     }
     
-    public void setWidth(int width) {
+    public IonContainer setWidth(int width) {
         this.width = width;
         repaint();
+        return this;
     }
-    public void setHeight(int height) {
+    public IonContainer setHeight(int height) {
         this.height = height;
         repaint();
+        return this;
     }
-    public void resize(int width, int height) {
+    public IonContainer resize(int width, int height) {
         this.width = width;
         this.height = height;
+        repaint();
+        return this;
     }
 
 
-    public void setX(int x) {
+    public IonContainer setX(int x) {
         this.x = x;
         repaint();
+        return this;
     }
-    public void setY(int y) {
+    public IonContainer setY(int y) {
         this.y = y;
         repaint();
+        return this;
     }
-    public void moveTo(int x, int y) {
+    public IonContainer moveTo(int x, int y) {
         this.x = x;
         this.y = y;
         repaint();
+        return this;
     }
-    public void moveBy(int x, int y) {
+    public IonContainer moveBy(int x, int y) {
         this.x += x;
         this.y += y;
         repaint();
+        return this;
     }
 
-    public void setWidthAuto(boolean newState) {
+    public IonContainer setWidthAuto(boolean newState) {
         this.widthAuto = newState;
         repaint();
+        return this;
     }
-    public void setHeightAuto(boolean newState) {
+    public IonContainer setHeightAuto(boolean newState) {
         this.heightAuto = newState;
         repaint();
+        return this;
     }
 
     public void setPanel(IonPanel panel, String key) {
@@ -190,10 +212,21 @@ public class IonContainer {
         sortedObjects.remove(removed);
         return removed;
     }
+    // !fix does not work! fix plz
+    public void remove(String property, boolean removeOnlyOrIgnore) { // removes all objects with property = true or ignores them
+        for (String objectName: objectsMap.keySet()) {
+            if ((boolean)objectsMap.get(objectName).getProperty(property, false) == removeOnlyOrIgnore)
+            {
+                sortedObjects.remove(objectsMap.get(objectName));
+                objectsMap.remove(objectName);
+            }
+        }
+    } 
 
-    public void removeAllObjects() {
+    public IonContainer removeAllObjects() {
         objectsMap.clear();
         sortedObjects.clear();
+        return this;
     }
     
     //Sorting objects by descending z_index (max z_index is at 0)
@@ -238,11 +271,11 @@ public class IonContainer {
         }
     }
     
-    //if ignoreOrIncludeOnly is true, objects with property = true will be ignored
-    //if ignoreOrIncludeOnly is false, only objects with property = true will be included
-    public IonObject getObjectByCoordinates(int x, int y, String property, boolean ignoreOrIncludeOnly) {
+    //if ignoreOrIncludeOnly is true, objects with property = expectedValue will be ignored
+    //if ignoreOrIncludeOnly is false, only objects with property = expectedValue will be included
+    public IonObject getObjectByCoordinates(int x, int y, String property, Object expectedValue, boolean ignoreOrIncludeOnly) {
         for (IonObject object: sortedObjects) {
-            boolean included = !ignoreOrIncludeOnly == (boolean)object.getProperty(property, false);
+            boolean included = !ignoreOrIncludeOnly == (object.getProperty(property, false).equals(expectedValue));
             if (included && object.getX() < x && object.getX() + object.getWidth() > x && object.getY() < y && object.getY() + object.getHeight() > y)
                 return object;
         }
@@ -256,11 +289,29 @@ public class IonContainer {
         return null;
     }
 
-    public Object setPropertyToAllObjects(String propertyName, Object property) {
+    public ArrayList<IonObject> getObjectsByCoordinates(int x, int y, String property, boolean ignoreOrIncludeOnly) {
+        ArrayList<IonObject> objects = new ArrayList<IonObject>();
+        for (IonObject object: sortedObjects) {
+            boolean included = !ignoreOrIncludeOnly == (boolean)object.getProperty(property, false);
+            if (included && object.getX() < x && object.getX() + object.getWidth() > x && object.getY() < y && object.getY() + object.getHeight() > y)
+                objects.add(object);
+        }
+        return objects;
+    }
+    public ArrayList<IonObject> getObjectsByCoordinates(int x, int y) {
+        ArrayList<IonObject> objects = new ArrayList<IonObject>();
+        for (IonObject object: sortedObjects) {
+            if (object.getX() < x && object.getX() + object.getWidth() > x && object.getY() < y && object.getY() + object.getHeight() > y)
+                objects.add(object);
+        }
+        return objects;
+    }
+
+    public IonContainer setPropertyToAllObjects(String propertyName, Object property) {
         for (IonObject object: objectsMap.values()) {
             object.setProperty(propertyName, property);
         }
-        return property;
+        return this;
     } 
 
 }

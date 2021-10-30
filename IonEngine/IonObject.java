@@ -129,12 +129,12 @@ public class IonObject {
     }
 
     public void normalizeBorders() {
-        if (width > thisContainer.getWidth()) {
-            width = thisContainer.getWidth();
-        }
-        if (height > thisContainer.getHeight()) {
-            height = thisContainer.getHeight();
-        }
+        // if (width > thisContainer.getWidth()) {
+        //     width = thisContainer.getWidth();
+        // }
+        // if (height > thisContainer.getHeight()) {
+        //     height = thisContainer.getHeight();
+        // }
 
         if (x < 0)
             x = 0;
@@ -211,12 +211,17 @@ public class IonObject {
         return toReturn;
     }
 
-    public Object setProperty(String propertyName, Object property) {
+    public IonObject setProperty(String propertyName, Object property) {
         if (properties.get(propertyName) == null)
-            return addProperty(propertyName, property);
+            addProperty(propertyName, property);
         else
             properties.replace(propertyName, property);
-        return property;
+        return this;
+    }
+    public IonObject setProperties(String[] propertyNames, Object[] propertyValues) {
+        for (int i = 0; i < propertyNames.length; i++)
+            setProperty(propertyNames[i], propertyValues[i]);
+        return this;
     }
 
     public void sendObjectEvent(String type) {
@@ -275,4 +280,6 @@ public class IonObject {
     public void remove() {
         thisContainer.remove(thisContainerKey);
     }
+
+    public String getName() { return thisContainerKey; }
 }

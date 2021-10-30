@@ -30,15 +30,15 @@ public class Main {
 
         container.addBehaviour(new IonDraggableBP());
         container.addBehaviour(new TracerBP(panel.addContainer()));
-        container.addBehaviour(new IonPhysicsBP()).on();
+        container.addBehaviour(new IonPhysicsBP()).start();
 
         IonRunTimeConsole rtc = new IonRunTimeConsole(frame);
         rtc.addPanelAppended("panel");
         rtc.addContainerAppended("container");
         rtc.start();
 
-        //container.setPropertyToAllObjects("draggable", true);
-        //container.setPropertyToAllObjects("free", true);
+        container.setPropertyToAllObjects("draggable", true);
+        container.setPropertyToAllObjects("free", true);
 
     }
 }
@@ -61,7 +61,7 @@ class TracerBP extends IonBehaviourPack {
                 int b = 255 - (r+g)/2;
                 if (b > 255) b = 255;
                 try {
-                dot.setBackgroundColor(new Color(r, g, b));
+                    dot.setBackgroundColor(new Color(r, g, b));
                 } catch (Exception e) {
                     System.out.println("Color error! r " + r + " g " + g + " b " + b);
                 }

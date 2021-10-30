@@ -22,7 +22,7 @@ public class IonPanel extends JPanel {
     }
 
     public void setFrame(IonFrame frame) { this.frame = frame; }
-
+    public IonFrame getFrame() { return this.frame; }
     public Redirect getListener() { return listener; }
 
     private class Redirect implements MouseMotionListener, MouseListener, MouseWheelListener, KeyListener {
@@ -71,6 +71,14 @@ public class IonPanel extends JPanel {
     }
 
     public IonContainer addContainer(IonContainer container, String name) {
+        this.containerMap.put(name, container);
+        container.setPanel(this, name);
+        return container;
+    }
+    public IonContainer addContainer(String name) {
+        IonContainer container = new IonContainer();
+        int i = 1;
+        while (containerMap.get(name) != null) {i++; name = "container" + i;}
         this.containerMap.put(name, container);
         container.setPanel(this, name);
         return container;

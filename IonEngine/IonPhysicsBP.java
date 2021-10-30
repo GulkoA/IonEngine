@@ -1,9 +1,12 @@
 package IonEngine;
 
-import java.awt.event.*;
+import java.awt.Point;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+//import java.awt.event.*;
 import java.util.HashMap;
 
-public class IonPhysicsBP extends IonBehaviourPack {
+public class IonPhysicsBP extends IonBehaviourPack{
     private boolean enabled;
     private IonContainer container;
 
@@ -11,7 +14,7 @@ public class IonPhysicsBP extends IonBehaviourPack {
         this.enabled = enabled;
     }
     public IonPhysicsBP() {
-        this.enabled = false;
+        this.enabled = true;
     }
 
     public void setContainer(IonContainer container) {
@@ -22,9 +25,10 @@ public class IonPhysicsBP extends IonBehaviourPack {
         return container;
     }
 
+
     public void on() {
         enabled = true;
-        process();
+        run();
     }
     public void off() {
         enabled = false;
@@ -33,13 +37,13 @@ public class IonPhysicsBP extends IonBehaviourPack {
     public void setState(boolean state) {
         enabled = state;
         if (enabled)
-            process();
+            run();
     }
 
 
     private double g = 9.8;
-    public void setG(double newG) { g = newG; }
-    private double bounce = 0.3;
+    public IonPhysicsBP setG(double newG) { g = newG; return this;}
+    private double bounce = 0.4;
     public void setBounce(double newBounce) { bounce = newBounce; }
     private double friction = 0.9;
     public void setFriction(double newFriction) { friction = newFriction; }
@@ -48,7 +52,8 @@ public class IonPhysicsBP extends IonBehaviourPack {
     private final double tStep = 0.025;
     private double movementForce = 50;
     
-    private void process() {
+
+    public void run() {
         while (enabled) {
             HashMap<String, IonObject> objectMap = container.getObjectMap();
             try{Thread.sleep(1);} catch (Exception e) {}
@@ -104,6 +109,61 @@ public class IonPhysicsBP extends IonBehaviourPack {
                     //if has any velocity, move
                     if (velocityX != 0 || velocityY != 0)
                         object.moveBy(velocityX * tStep, velocityY * tStep);
+                    
+
+                    //object collision - IN DEVELOPMENT!
+
+                    // ArrayList<IonObject> collidedObjects = new ArrayList<IonObject>(); //for object collided in total
+                    // if (velocityX > 0)
+                    //     for (int y = (int)object.getY(); y < (int)object.getY() + object.getHeight(); y++)
+                    //     {
+                    //         ArrayList<IonObject> collidedWith = container.getObjectsByCoordinates((int)object.getX() + object.getWidth(), y, "free", false);
+                    //         for (IonObject collidedObject: collidedWith)
+                    //         {
+                    //             if (collidedObject != object)
+                    //             {
+                    //                 collidedObjects.add(collidedObject);
+                                    
+                    //             }
+
+                    //         }
+                    //     }
+                    // else if (velocityX < 0)
+                    //     for (int y = (int)object.getY(); y < (int)object.getY() + object.getHeight(); y++)
+                    //     {
+                    //         ArrayList<IonObject> collidedWith = container.getObjectsByCoordinates((int)object.getX(), y, "free", false);
+                    //         for (IonObject collidedObject: collidedWith)
+                    //         {
+                    //             if (collidedObject != object)
+                    //                 collidedObjects.add(collidedObject);
+                    //         }
+                    //     }
+
+                    // if (velocityY > 0)
+                    //     for (int x = (int)object.getX(); x < (int)object.getX() + object.getWidth(); x++)
+                    //     {
+                    //         ArrayList<IonObject> collidedWith = container.getObjectsByCoordinates(x, (int)object.getY() + object.getHeight(), "free", false);
+                    //         for (IonObject collidedObject: collidedWith)
+                    //         {
+                    //             if (collidedObject != object)
+                    //                 collidedObjects.add(collidedObject);
+                    //         }
+                    //     }
+                    // else if (velocityY < 0)
+                    //     for (int x = (int)object.getX(); x < (int)object.getX() + object.getWidth(); x++)
+                    //     {
+                    //         ArrayList<IonObject> collidedWith = container.getObjectsByCoordinates(x, (int)object.getY(), "free", false);
+                    //         for (IonObject collidedObject: collidedWith)
+                    //         {
+                    //             if (collidedObject != object)
+                    //                 collidedObjects.add(collidedObject);
+                    //         }
+                    //     }
+
+
+                    // if (collidedObjects.size() > 0)
+                    //     System.out.println(collidedObjects.get(0).getName());
+                    
                     //save new velocities
                     object.setProperty("velocityY", velocityY);
                     object.setProperty("velocityX", velocityX);

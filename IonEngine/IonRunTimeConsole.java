@@ -2,7 +2,7 @@ package IonEngine;
 import java.util.Scanner;
 import java.util.HashMap;
 
-public class IonRunTimeConsole {
+public class IonRunTimeConsole extends Thread {
     private boolean runtimeConsoleEnabled = false;
     private HashMap<String, IonFrame> framesMap = new HashMap<String, IonFrame>();
     private HashMap<String, IonPanel> panelsMap = new HashMap<String, IonPanel>();
@@ -49,15 +49,14 @@ public class IonRunTimeConsole {
         return object;
     }
 
-
-    public void start() {
+    public void run() {
         runtimeConsoleEnabled = true;
-        System.out.println("Ion runtime console enabled");
+        System.out.println("Ion runtime console enabled! Type rtc.help for the command list");
         while (runtimeConsoleEnabled)
             prompt();
     }
 
-    public void stop() {
+    public void exit() {
         runtimeConsoleEnabled = false;
         System.out.println("Ion runtime console disabled");
     }
@@ -69,6 +68,10 @@ public class IonRunTimeConsole {
         String input = scanner.nextLine();
         String objectName = "";
         int objectNameStopIndex = 0;
+        if (input.equals("help")) {
+            System.out.println("You need to begin every command with object name. Try rtc.help");
+            return;
+        }
         for (int i = 0; i < input.length(); i++) {
             if (input.charAt(i) == '.')
             {   
@@ -108,35 +111,37 @@ public class IonRunTimeConsole {
 
         //System.out.println("IonRTC: Command " + command + " is detected with params " + commandParams);
 
-
+        
         if (objectName.equals("rtc") || objectName.equals("RTC"))
         {
             switch(command) {
                 case "help":
                     System.out.println("With rtc you can use:");
                     System.out.println(".check - checks that rtc works correctly");
-                    System.out.println(".displayFrames - lists the names for all imported Ion Frames");
-                    System.out.println(".displayPanels - lists the names for all imported Ion Panels");
-                    System.out.println(".displayContainers - lists the names for all imported Ion Containers");
-                    System.out.println(".displayObjects - lists the names for all imported Ion Objects");
-                    System.out.println(".stop - stops the rtc");
+                    System.out.println(".frames - lists the names for all imported Ion Frames");
+                    System.out.println(".panels - lists the names for all imported Ion Panels");
+                    System.out.println(".containers - lists the names for all imported Ion Containers");
+                    System.out.println(".objects - lists the names for all imported Ion Objects");
+                    System.out.println(".exit - exits the rtc");
+                    System.out.println("\nType the name of any frame/panel/container/object imported or \"ion\" + .help to see available commands");
+                    return;
                 case "check":
                     System.out.println("Everything is working fine!");
                     return;
-                case "displayFrames":
+                case "frames":
                     System.out.println(framesMap.keySet());
                     return;
-                case "displayPanels":
+                case "panels":
                     System.out.println(panelsMap.keySet());
                     return;
-                case "displayContainers":
+                case "containers":
                     System.out.println(containersMap.keySet());
                     return;
-                case "displayObjects":
+                case "objects":
                     System.out.println(objectsMap.keySet());
                     return;
-                case "stop":
-                    stop();
+                case "exit":
+                    exit();
                     return;
                 default:
                     System.out.println("IonRTC:  " + command + " not found!");
@@ -146,6 +151,11 @@ public class IonRunTimeConsole {
         if (objectName.equals("ion") || objectName.equals("ION"))
         {
             switch(command) {
+                case "help":
+                    System.out.println("With ion you can use:");
+                    System.out.println(".version - to check the engine version");
+                    System.out.println(".exit - to stop the program");
+                    return;
                 case "version":
                     System.out.println("Are you serious?! You are the developer and this thing is not even published yet. It is version -11 if you wish.");
                     return;
@@ -164,6 +174,9 @@ public class IonRunTimeConsole {
             if (objectName.equals(frameName))
             {
                 switch(command) {
+                    case "help":
+                        System.out.println(".setVisible + (true/false) - sets the frame visibility");
+                        return;
                     case "setVisible":
                         if (commandParams.equals("true"))
                             framesMap.get(frameName).setVisible(true);
@@ -186,7 +199,10 @@ public class IonRunTimeConsole {
             {
                 switch(command) {
                     //!add Add some useful rtc functions for Ion Panels
-                    case "importPanels":
+                    case "help":
+                        System.out.println(".importContainers - imports appended to the panel containers to the RTC");
+                        return;
+                    case "importContainers":
                         try {
                             addPanelAppended(objectName);
                         }
@@ -205,6 +221,16 @@ public class IonRunTimeConsole {
             if (objectName.equals(containerName))
             {
                 switch(command) {
+                    case "help":
+                        System.out.println(".changeBorder + integer - changes container's border to the specified thickness");
+                        System.out.println(".setWidth + integer - sets container's width to the specified value");
+                        System.out.println(".setHeight + integer - sets (surprise surprise) container's height to the specified value");
+                        System.out.println(".setWidthAuto + true/false - turns container's autowidth on and off accordingly");
+                        System.out.println(".setHeightAuto + true/false - turns container's autoheight on and off accordingly");
+                        System.out.println(".setX + int - sets container's x coordinate to the specified value");
+                        System.out.println(".setY + int - sets container's y coordinate to the specified value");
+                        System.out.println(".importObjects - imports appended to the panel containers to the RTC");
+                        return;
                     case "changeBorder":
                         try {
                             containersMap.get(containerName).changeBorder(Integer.parseInt(commandParams));
@@ -288,6 +314,14 @@ public class IonRunTimeConsole {
             if (objectName.equals(objectNameMap))
             {
                 switch(command) {
+                    case "help":
+                        System.out.println(".setWidth + integer - sets object's width to the specified value");
+                        System.out.println(".setHeight + integer - sets (surprise surprise) object's height to the specified value");
+                        System.out.println(".setX + int - sets object's x coordinate to the specified value");
+                        System.out.println(".setY + int - sets object's y coordinate to the specified value");
+                        System.out.println(".setZ + int - sets object's z index to the specified value");
+                        System.out.println(".moveUp - move the object up by z index");
+                        return;
                     case "setWidth":
                         try {
                             objectsMap.get(objectNameMap).setWidth(Integer.parseInt(commandParams));
@@ -324,7 +358,7 @@ public class IonRunTimeConsole {
                         }
                         return;
 
-                    case "setZIndex":
+                    case "setZ":
                         try {
                             objectsMap.get(objectNameMap).setZIndex(Integer.parseInt(commandParams));
                         }
