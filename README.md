@@ -1,5 +1,5 @@
 # IonEngine
- Light, functional, flexible and easy-to-use 2D game engine for Java. Makes game development accessible while providing powerful features for both beginners and experienced developers.
+ Light, functional, flexible and easy-to-use 2D graphics for Java. Makes java GUI development accessible while providing powerful features for both beginners and experienced developers.
 
 > Read more in [Alex's blog post](https://gulko.net/projects/ionengine/)
 
