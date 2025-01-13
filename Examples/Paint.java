@@ -1,10 +1,10 @@
-import java.awt.event.MouseEvent;
+package Examples;
 
-import IonEngine.*;
-import java.awt.*;
 import java.awt.event.*;
 
-public class Main {
+import IonEngine.*;
+
+public class Paint {
     public static void main(String[] args)
     {
         IonFrame frame = new IonFrame(518, 559);

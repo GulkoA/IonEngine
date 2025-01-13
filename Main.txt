@@ -1,5 +1,0 @@
-import IonEngine.*;
-
-public class Main {
-    
-}

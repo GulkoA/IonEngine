@@ -6,6 +6,48 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Demo",
+            "request": "launch",
+            "mainClass": "Examples.Demo",
+            "projectName": "Ion_db76322"
+        },
+        {
+            "type": "java",
+            "name": "GravityBox",
+            "request": "launch",
+            "mainClass": "Examples.GravityBox",
+            "projectName": "Ion_db76322"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Examples.Main",
+            "projectName": "Ion_db76322"
+        },
+        {
+            "type": "java",
+            "name": "Gradient",
+            "request": "launch",
+            "mainClass": "Examples.Gradient",
+            "projectName": "Ion_db76322"
+        },
+        {
+            "type": "java",
+            "name": "Paint",
+            "request": "launch",
+            "mainClass": "Examples.Paint",
+            "projectName": "Ion_db76322"
+        },
+        {
+            "type": "java",
+            "name": "WallBuilder",
+            "request": "launch",
+            "mainClass": "Examples.WallBuilder.WallBuilder",
+            "projectName": "Ion_db76322"
+        },
+        {
+            "type": "java",
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "Main",

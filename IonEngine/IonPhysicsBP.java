@@ -6,53 +6,102 @@ import java.util.ArrayList;
 //import java.awt.event.*;
 import java.util.HashMap;
 
+/**
+ * A behavior pack that adds basic physics simulation to IonObjects.
+ * Handles gravity, bouncing, friction and velocity-based movement.
+ */
 public class IonPhysicsBP extends IonBehaviourPack{
     private boolean enabled;
     private IonContainer container;
 
+    /**
+     * Creates a new physics behavior pack with specified initial state.
+     * @param enabled Whether the physics simulation should start enabled
+     */
     public IonPhysicsBP(boolean enabled) {
         this.enabled = enabled;
     }
+
+    /**
+     * Creates a new physics behavior pack enabled by default.
+     */
     public IonPhysicsBP() {
         this.enabled = true;
     }
 
+    /**
+     * Sets the container this physics pack operates on.
+     * @param container The IonContainer to apply physics to
+     */
     public void setContainer(IonContainer container) {
         this.container = container;
     }
 
+    /**
+     * Gets the container this physics pack operates on.
+     * @return The associated IonContainer
+     */
     public IonContainer getContainer() {
         return container;
     }
 
-
+    /**
+     * Enables physics simulation and starts the physics loop.
+     */
     public void on() {
         enabled = true;
         run();
     }
+
+    /**
+     * Disables physics simulation.
+     */
     public void off() {
         enabled = false;
     }
 
+    /**
+     * Sets the enabled state of the physics simulation.
+     * @param state true to enable and start physics, false to disable
+     */
     public void setState(boolean state) {
         enabled = state;
         if (enabled)
             run();
     }
 
-
-    private double g = 9.8;
+    private double g = 9.8; // Gravity constant
+    /**
+     * Sets the gravity constant for the physics simulation.
+     * @param newG The new gravity value (default is 9.8)
+     * @return This physics pack instance for method chaining
+     */
     public IonPhysicsBP setG(double newG) { g = newG; return this;}
-    private double bounce = 0.4;
+
+    private double bounce = 0.4; // Bounce coefficient
+    /**
+     * Sets the bounce coefficient for collisions.
+     * @param newBounce The new bounce value (0-1, default is 0.4)
+     */
     public void setBounce(double newBounce) { bounce = newBounce; }
-    private double friction = 0.9;
+
+    private double friction = 0.9; // Friction coefficient
+    /**
+     * Sets the friction coefficient for ground movement.
+     * @param newFriction The new friction value (0-1, default is 0.9)
+     */
     public void setFriction(double newFriction) { friction = newFriction; }
-    private double error = 0.06;
-    private double maxV = 1000;
-    private final double tStep = 0.025;
-    private double movementForce = 50;
+
+    private double error = 0.06; // Minimum velocity threshold
+    private double maxV = 1000; // Maximum velocity cap
+    private final double tStep = 0.025; // Time step for physics calculations
+    private double movementForce = 50; // Base force for manual movement
     
 
+    /**
+     * Main physics simulation loop. Handles gravity, collision, and movement
+     * for all objects marked as "free" in the container.
+     */
     public void run() {
         while (enabled) {
             HashMap<String, IonObject> objectMap = container.getObjectMap();
@@ -172,7 +221,13 @@ public class IonPhysicsBP extends IonBehaviourPack{
         }
     }
 
-    
+    /**
+     * Handles physics-related object events like movement and release.
+     * Updates object velocities based on manual movement and handles release behavior.
+     * 
+     * @param object The IonObject that triggered the event
+     * @param type The type of event ("movedTo", "changedX", "changedY", or "released")
+     */
     public void objectEvent(IonObject object, String type) {
         if (type == "movedTo" || type == "changedX" || type == "changedY") {
             //fetch properties

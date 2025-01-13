@@ -2,69 +2,131 @@ package IonEngine;
 import java.util.Scanner;
 import java.util.HashMap;
 
+/**
+ * A runtime console that provides interactive command-line control over Ion Engine components.
+ * This console allows users to manipulate frames, panels, containers, and objects during runtime.
+ */
 public class IonRunTimeConsole extends Thread {
     private boolean runtimeConsoleEnabled = false;
+    private Scanner scanner;
     private HashMap<String, IonFrame> framesMap = new HashMap<String, IonFrame>();
     private HashMap<String, IonPanel> panelsMap = new HashMap<String, IonPanel>();
     private HashMap<String, IonContainer> containersMap = new HashMap<String, IonContainer>();
     private HashMap<String, IonObject> objectsMap = new HashMap<String, IonObject>();
 
+    /**
+     * Creates a new runtime console with a pre-configured frame.
+     * @param frame The IonFrame to be added to the console's control
+     */
     public IonRunTimeConsole(IonFrame frame) {
         addFrame(frame, "frame");
         addFrameAppended("frame");
     }
+
+    /**
+     * Creates a new empty runtime console.
+     */
     public IonRunTimeConsole() {}
 
+    /**
+     * Adds a frame to the console's control.
+     * @param frame The frame to be added
+     * @param name The name used to reference this frame in console commands
+     * @return The added frame
+     */
     public IonFrame addFrame(IonFrame frame, String name) {
         framesMap.put(name, frame);
         return frame;
     }
 
+    /**
+     * Imports all panels from a specified frame into the console's control.
+     * @param frameName The name of the frame whose panels should be imported
+     */
     public void addFrameAppended(String frameName) {
         for (IonPanel panel: framesMap.get(frameName).getPanelList())
         addPanel(panel, "panel");
         addPanelAppended("panel");
     }
 
+    /**
+     * Adds a panel to the console's control.
+     * @param panel The panel to be added
+     * @param name The name used to reference this panel in console commands
+     * @return The added panel
+     */
     public IonPanel addPanel(IonPanel panel, String name) {
         panelsMap.put(name, panel);
         return panel;
     }
 
+    /**
+     * Imports all containers from a specified panel into the console's control.
+     * @param panelName The name of the panel whose containers should be imported
+     */
     public void addPanelAppended(String panelName) {
         containersMap.putAll(panelsMap.get(panelName).getContainerMap());
     }
 
+    /**
+     * Adds a container to the console's control.
+     * @param container The container to be added
+     * @param name The name used to reference this container in console commands
+     * @return The added container
+     */
     public IonContainer addContainer(IonContainer container, String name) {
         containersMap.put(name, container);
         return container;
     }
 
+    /**
+     * Imports all objects from a specified container into the console's control.
+     * @param containerName The name of the container whose objects should be imported
+     */
     public void addContainerAppended(String containerName) {
         objectsMap.putAll(containersMap.get(containerName).getObjectMap());
     }
 
+    /**
+     * Adds an object to the console's control.
+     * @param object The object to be added
+     * @param name The name used to reference this object in console commands
+     * @return The added object
+     */
     public IonObject addObject(IonObject object, String name) {
         objectsMap.put(name, object);
         return object;
     }
 
+    /**
+     * Starts the runtime console, enabling command input.
+     * The console will continue running until explicitly stopped.
+     */
+    @Override
     public void run() {
         runtimeConsoleEnabled = true;
+        scanner = new Scanner(System.in);
         System.out.println("Ion runtime console enabled! Type rtc.help for the command list");
         while (runtimeConsoleEnabled)
             prompt();
     }
 
+    /**
+     * Stops the runtime console.
+     */
     public void exit() {
         runtimeConsoleEnabled = false;
+        scanner.close();
         System.out.println("Ion runtime console disabled");
     }
 
-
+    /**
+     * Processes a single command input from the user.
+     * This method handles the parsing and execution of console commands.
+     * Available commands can be viewed using the 'rtc.help' command.
+     */
     public void prompt() {
         System.out.print("> ");
-        Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         String objectName = "";
         int objectNameStopIndex = 0;
@@ -157,7 +219,7 @@ public class IonRunTimeConsole extends Thread {
                     System.out.println(".exit - to stop the program");
                     return;
                 case "version":
-                    System.out.println("Are you serious?! You are the developer and this thing is not even published yet. It is version -11 if you wish.");
+                    System.out.println("IonEngine version 1.0.0");
                     return;
                 case "exit":
                     System.out.println("Goodbye!");

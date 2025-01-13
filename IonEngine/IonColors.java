@@ -1,6 +1,9 @@
 package IonEngine;
 import java.awt.Color;
 
+/**
+ * A class containing some nice predefined colors for use in IonEngine.
+ */
 public class IonColors {
     public static final Color MaterialDarkGrey = new Color(20, 20, 22);
     public static final Color NiceGreen = new Color(30, 200, 42);
