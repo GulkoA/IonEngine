@@ -1,6 +1,8 @@
 # IonEngine
  Light, functional, flexible and easy-to-use 2D game engine for Java. Makes game development accessible while providing powerful features for both beginners and experienced developers.
 
+> Read more in [Alex's blog post](https://gulko.net/projects/ionengine/)
+
 ```
                     ___           ___     
         ___        /\  \         /\__\    
@@ -18,14 +20,10 @@
 ## Features ✨
 
 - **Lightweight**: Minimal dependencies, built on pure Java
-- **Simple API**: Intuitive object-oriented design for easy game development
-- **2D Graphics**: Efficient rendering system for 2D games
-- **Physics Support**: Basic 2D physics engine included
-- **Flexible Objects**: Support for various game objects including:
-  - Rectangles
-  - Lines
-  - Pixel Fields
-  - Custom Objects
+- **Simple Graphics API**: Intuitive object-oriented design for easy game development
+- **Real-time Console**: Interactive debug console during runtime
+- **Physics Support**: 2D physics engine included
+- **Flexible Objects**: Support for various objects with custom behaviors
 
 ## Getting Started 🚀
 
@@ -71,6 +69,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Support 💬
 
 If you have any questions or need help, please open an issue on GitHub
----
+
 
 Made by [Alex Gulko](https://gulko.net)
